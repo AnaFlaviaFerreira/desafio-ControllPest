@@ -1,51 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'amostra.dart';
 
-class Amostra extends StatefulWidget {
-
-  const Amostra({ Key? key }) : super(key: key);
+class BrocaPopulacional extends StatefulWidget {
+  const BrocaPopulacional({ Key? key }) : super(key: key);
 
   @override
-  _AmostraState createState() => _AmostraState();
+  _BrocaPopulacionalState createState() => _BrocaPopulacionalState();
 }
 
-class _AmostraState extends State<Amostra> {
-
-  var secao = TextEditingController();
-  var quadra = TextEditingController();
-  var talao = TextEditingController();
+class _BrocaPopulacionalState extends State<BrocaPopulacional> {
+  var level = TextEditingController();
+  var pequenas = TextEditingController();
+  var aptas = TextEditingController();
+  var crisalidas = TextEditingController();
+  var massas = TextEditingController();
+  var outParasita = TextEditingController();
+  var colaboradores = TextEditingController();
+  var tempo = TextEditingController();
 
   var formKey = GlobalKey<FormState>();
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Broca Populacional'),
-        centerTitle: false,
-
-        backgroundColor: Theme.of(context).primaryColor,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.refresh),
-            color: Colors.white,
-            onPressed: () {
-              setState(() {
-                formKey.currentState!.reset();
-                secao.text = '';
-                quadra.text = '';
-                talao.text = '';
-                FocusScope.of(context).unfocus();
-              });
-            },
-          )
-        ],
-        leading : IconButton(
-          icon: Icon(Icons.arrow_back_ios),
-          color: Colors.white,
-          onPressed: Navigator.of(context).pop,
-        ),
-      ),
-
       backgroundColor: Theme.of(context).backgroundColor,
 
       body: Container(
@@ -56,11 +34,15 @@ class _AmostraState extends State<Amostra> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                texto('AMOSTRA 1', false),
-                campo('Seção (fazenda)', secao),
-                campo('Quadra (Gleba)',quadra),
-                campo('Talhão',talao),
-                texto('BROCA POPULACIONAL', true),
+                texto('Broca Populacional', false),
+                campo('Nro. Lev.', level),
+                campo('Pequenas',pequenas),
+                campo('Aptas',aptas),
+                campo('Crisalidas',crisalidas),
+                campo('Massas',massas),
+                campo('Outros Parasitadas',outParasita),
+                campo('Qtd. Colaboradores',colaboradores),
+                campo('Tempo/ Pessoa',tempo),
               ],
             ),
           ),
