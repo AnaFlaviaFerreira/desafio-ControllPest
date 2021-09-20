@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'broca_populacional.dart';
 
 class Amostra extends StatefulWidget {
 
@@ -49,7 +50,7 @@ class _AmostraState extends State<Amostra> {
       backgroundColor: Theme.of(context).backgroundColor,
 
       body: Container(
-        padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
+        padding: EdgeInsets.fromLTRB(40, 10, 40, 25),
         child: SingleChildScrollView(
           child: Form(
             key: formKey,
@@ -61,6 +62,7 @@ class _AmostraState extends State<Amostra> {
                 campo('Quadra (Gleba)',quadra),
                 campo('Talhão',talao),
                 texto('BROCA POPULACIONAL', true),
+                BrocaPopulacional()
               ],
             ),
           ),

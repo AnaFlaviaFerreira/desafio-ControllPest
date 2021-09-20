@@ -23,30 +23,20 @@ class _BrocaPopulacionalState extends State<BrocaPopulacional> {
   
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).backgroundColor,
-
-      body: Container(
-        padding: EdgeInsets.fromLTRB(40, 10, 40, 10),
-        child: SingleChildScrollView(
-          child: Form(
-            key: formKey,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                texto('Broca Populacional', false),
-                campo('Nro. Lev.', level),
-                campo('Pequenas',pequenas),
-                campo('Aptas',aptas),
-                campo('Crisalidas',crisalidas),
-                campo('Massas',massas),
-                campo('Outros Parasitadas',outParasita),
-                campo('Qtd. Colaboradores',colaboradores),
-                campo('Tempo/ Pessoa',tempo),
-              ],
-            ),
-          ),
-        ),
+    return Container(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        children: [
+          texto('Broca Populacional', false),
+          campo('Nro. Lev.', level),
+          campo('Pequenas',pequenas),
+          campo('Aptas',aptas),
+          campo('Crisalidas',crisalidas),
+          campo('Massas',massas),
+          campo('Outros Parasitadas',outParasita),
+          campo('Qtd. Colaboradores',colaboradores),
+          campo('Tempo/ Pessoa',tempo),
+        ],
       ),
     );
   }
