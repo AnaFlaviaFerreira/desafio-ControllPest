@@ -13,49 +13,155 @@ class _TelaInicialState extends State<TelaInicial> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.green.shade100,
-      body: Container(
-        padding: EdgeInsets.all(30),
-        child: Form(
-          child: Column(
-            children: [
-              apresentacaoUsuario(),
-              entomologia(),
-              auditoria(),
-            ],
+      body: Column(
+        children: [
+          Expanded(
+            flex: 1,
+            child: ApresentacaoUsuario(),
           ),
+          const Divider(
+            height: 0,
+            thickness: 1.5,
+            indent: 15,
+            endIndent: 20,
+            color: Colors.lightGreen,
+          ),
+          Container(
+            padding: EdgeInsets.all(10),
+            margin: EdgeInsets.all(10),
+            child: Row(
+              children: [
+                Text(
+                  'Menu de Apontamentos',
+                  style: GoogleFonts.poppins(color: Colors.lightGreen.shade900),
+                )
+              ],
+            ),
+          ),
+          Expanded(
+            flex: 3,
+            child: PainelExpansivo(),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ApresentacaoUsuario extends StatefulWidget {
+  const ApresentacaoUsuario({Key? key}) : super(key: key);
+
+  @override
+  _ApresentacaoUsuarioState createState() => _ApresentacaoUsuarioState();
+}
+
+class _ApresentacaoUsuarioState extends State<ApresentacaoUsuario> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: Colors.green.shade100,
+      body: Container(
+        margin: EdgeInsets.all(15),
+        padding: EdgeInsets.all(15),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              'Olá\nFulano!',
+              style: GoogleFonts.poppins(
+                fontSize: 24,
+                color: Colors.grey.shade900,
+              ),
+            ),
+            Icon(
+              Icons.account_circle,
+              size: 50,
+              color: Colors.green.shade400,
+            ),
+          ],
         ),
       ),
     );
   }
-
-  entomologia() {
-    return Container(
-      padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-    );
-  }
-
-  auditoria() {
-    return Container();
-  }
 }
 
-class apresentacaoUsuario extends StatelessWidget {
+class Item {
+  String titulo;
+  String conteudo;
+  bool estado;
+  Item(this.titulo, this.conteudo, this.estado);
+}
+
+class PainelExpansivo extends StatefulWidget {
+  const PainelExpansivo({Key? key}) : super(key: key);
+
+  @override
+  _PainelExpansivoState createState() => _PainelExpansivoState();
+}
+
+class _PainelExpansivoState extends State<PainelExpansivo> {
+  var dados = [
+    Item('Entomologia', 'Broca Populacional', false),
+    Item('Auditoria', 'Plantio Mecanizado', false)
+  ];
+
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 200,
-      margin: EdgeInsets.all(15),
-      padding: EdgeInsets.all(15),
-      alignment: Alignment.topLeft,
-      child: Column(
-        children: [
-          Text(
-            'Olá!\nFulano',
-            style:
-                GoogleFonts.poppins(fontSize: 23, color: Colors.grey.shade800),
+    return Scaffold(
+      backgroundColor: Colors.green.shade100,
+      body: SingleChildScrollView(
+        child: Container(
+          color: Colors.green.shade100,
+          margin: EdgeInsets.all(10),
+          padding: EdgeInsets.all(10),
+          child: ExpansionPanelList(
+            expansionCallback: (int index, bool isExpanded) {
+              setState(() {
+                dados[index].estado = !isExpanded;
+              });
+            },
+            children: [
+              ExpansionPanel(
+                headerBuilder: (BuildContext context, bool isExpanded) {
+                  return ListTile(
+                    leading: Icon(Icons.web),
+                    title: Text(dados[0].titulo),
+                  );
+                },
+                body: Container(
+                  padding: EdgeInsets.all(15),
+                  child: TextButton(
+                    child: Text(
+                      dados[0].conteudo,
+                      style: TextStyle(color: Colors.green.shade400),
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                isExpanded: dados[0].estado,
+              ),
+              ExpansionPanel(
+                headerBuilder: (BuildContext context, bool isExpanded) {
+                  return ListTile(
+                    leading: Icon(Icons.web),
+                    title: Text(dados[1].titulo),
+                  );
+                },
+                body: Container(
+                  padding: EdgeInsets.all(15),
+                  child: TextButton(
+                    child: Text(
+                      dados[1].conteudo,
+                      style: TextStyle(color: Colors.green.shade400),
+                    ),
+                    onPressed: () {},
+                  ),
+                ),
+                isExpanded: dados[1].estado,
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }
