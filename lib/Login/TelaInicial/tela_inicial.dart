@@ -12,7 +12,7 @@ class _TelaInicialState extends State<TelaInicial> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green.shade100,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Column(
         children: [
           Expanded(
@@ -59,7 +59,7 @@ class _ApresentacaoUsuarioState extends State<ApresentacaoUsuario> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green.shade100,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: Container(
         margin: EdgeInsets.all(15),
         padding: EdgeInsets.all(15),
@@ -108,10 +108,10 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green.shade100,
+      backgroundColor: Theme.of(context).backgroundColor,
       body: SingleChildScrollView(
         child: Container(
-          color: Colors.green.shade100,
+          color: Theme.of(context).backgroundColor,
           margin: EdgeInsets.all(10),
           padding: EdgeInsets.all(10),
           child: ExpansionPanelList(
@@ -135,7 +135,9 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
                       dados[0].conteudo,
                       style: TextStyle(color: Colors.green.shade400),
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, 'listagemBrocaPopulacional');
+                    },
                   ),
                 ),
                 isExpanded: dados[0].estado,

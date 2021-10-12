@@ -1,16 +1,23 @@
-import 'package:flutter/cupertino.dart';
+import 'broca_populacional/listagem.dart';
 import 'package:flutter/material.dart';
-
-import 'Login/TelaInicial/TelaInicial.dart';
+import 'Login/TelaInicial/tela_inicial.dart';
+import 'broca_populacional/broca_populacional.dart';
 
 void main() {
   runApp(MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
-      primaryColor: Colors.green.shade900,
+      primaryColor: Color.fromRGBO(83, 116, 45, 1),
       secondaryHeaderColor: Colors.green.shade600,
-      backgroundColor: Colors.green.shade50,
+      backgroundColor: Color.fromRGBO(246, 250, 241, 1),
+      primaryColorLight: Color.fromRGBO(199, 227, 167, 1),
     ),
-    home: TelaInicial(),
+    title: 'ControllPest',
+    initialRoute: 'telaInicial',
+    routes: {
+      'telaInicial': (context) => TelaInicial(),
+      'listagemBrocaPopulacional': (context) => ListagemBrocaPopulacional(),
+      'brocaPopulacional': (context) => BrocaPopulacional(),
+    },
   ));
 }
