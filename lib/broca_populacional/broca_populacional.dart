@@ -49,7 +49,7 @@ class _BrocaPopulacionalState extends State<BrocaPopulacional> {
       backgroundColor: Theme.of(context).backgroundColor,
 
       body: Container(
-        padding: EdgeInsets.fromLTRB(40, 10, 40, 25),
+        padding: EdgeInsets.fromLTRB(40, 10, 40, 70),
         child: SingleChildScrollView(
           child: Form(
             key: formKey,

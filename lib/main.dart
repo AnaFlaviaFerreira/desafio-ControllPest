@@ -1,7 +1,8 @@
+import 'broca_populacional/onboarding.dart';
+
 import 'broca_populacional/listagem.dart';
 import 'package:flutter/material.dart';
 import 'Login/TelaInicial/tela_inicial.dart';
-import 'broca_populacional/broca_populacional.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -17,7 +18,7 @@ void main() {
     routes: {
       'telaInicial': (context) => TelaInicial(),
       'listagemBrocaPopulacional': (context) => ListagemBrocaPopulacional(),
-      'brocaPopulacional': (context) => BrocaPopulacional(),
+      'brocaPopulacional': (context) => OnbordingBrocaPopulacional()
     },
   ));
 }

@@ -22,12 +22,12 @@ class _TelaInicialState extends State<TelaInicial> {
           const Divider(
             height: 0,
             thickness: 1.5,
-            indent: 15,
-            endIndent: 20,
-            color: Colors.lightGreen,
+            indent: 40,
+            endIndent: 40,
+            color: Color.fromRGBO(219, 235, 200, 1),
           ),
           Container(
-            padding: EdgeInsets.all(10),
+            padding: EdgeInsets.fromLTRB(50,20,50,5),
             margin: EdgeInsets.all(10),
             child: Row(
               children: [
@@ -89,7 +89,8 @@ class Item {
   String titulo;
   String conteudo;
   bool estado;
-  Item(this.titulo, this.conteudo, this.estado);
+  String imagem;
+  Item(this.titulo, this.conteudo, this.estado, this.imagem);
 }
 
 class PainelExpansivo extends StatefulWidget {
@@ -101,8 +102,8 @@ class PainelExpansivo extends StatefulWidget {
 
 class _PainelExpansivoState extends State<PainelExpansivo> {
   var dados = [
-    Item('Entomologia', 'Broca Populacional', false),
-    Item('Auditoria', 'Plantio Mecanizado', false)
+    Item('Entomologia', 'Broca Populacional', false,'assets/images/entomologia.png'),
+    Item('Auditoria', 'Plantio Mecanizado', false, 'assets/images/auditoria.png')
   ];
 
   @override
@@ -113,7 +114,7 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
         child: Container(
           color: Theme.of(context).backgroundColor,
           margin: EdgeInsets.all(10),
-          padding: EdgeInsets.all(10),
+          padding: EdgeInsets.symmetric(vertical:20, horizontal: 50),
           child: ExpansionPanelList(
             expansionCallback: (int index, bool isExpanded) {
               setState(() {
@@ -124,12 +125,12 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
               ExpansionPanel(
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Icon(Icons.web),
+                    leading: Image.asset(dados[0].imagem, scale: 1.0,),
                     title: Text(dados[0].titulo),
                   );
                 },
                 body: Container(
-                  padding: EdgeInsets.all(15),
+                  margin: EdgeInsets.all(15),
                   child: TextButton(
                     child: Text(
                       dados[0].conteudo,
@@ -145,7 +146,7 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
               ExpansionPanel(
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Icon(Icons.web),
+                    leading: Image.asset(dados[1].imagem, scale: 1.0,),
                     title: Text(dados[1].titulo),
                   );
                 },

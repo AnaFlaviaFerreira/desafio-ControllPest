@@ -164,7 +164,6 @@ class _ListagemBrocaPopulacionalState extends State<ListagemBrocaPopulacional> {
 
   campo(title,texto,variavelControle){
     return Container(
-      // padding: EdgeInsets.symmetric(vertical:8, horizontal: 34),
       padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -218,33 +217,20 @@ class _ListagemBrocaPopulacionalState extends State<ListagemBrocaPopulacional> {
   botao() {
     return Container(
       margin: EdgeInsets.only(top: 10),
-      padding: EdgeInsets.only(right: 34, left: 16),
-      child: ElevatedButton(
-        style: ElevatedButton.styleFrom(
-          primary: Theme.of(context).primaryColorLight,
-          padding: EdgeInsets.symmetric(horizontal: 0),
-        ),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              margin: EdgeInsets.symmetric(vertical: 8.5, horizontal: 0),
-              child: Icon(
-                Icons.filter_list_alt,
-                color: Theme.of(context).primaryColor,
-                size: 30,
-              ),
-            ),
-          ],
-
+      child: TextButton.icon(
+        icon: Icon(
+          Icons.filter_list_alt,
+          color: Theme.of(context).primaryColor,
+          size: 40,
         ),
         onPressed: () {
           visualizar = visualizar == false ? true : false;
-          setState(() {
-            botao();
-            _isVisible = visualizar == false ? false : true;
-          });
+            setState(() {
+              botao();
+              _isVisible = visualizar == false ? false : true;
+            });
         },
+        label: Text('')
       ),
     );
   }
