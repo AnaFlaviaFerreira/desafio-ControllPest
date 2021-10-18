@@ -3,6 +3,7 @@ import 'broca_populacional/onboarding.dart';
 import 'broca_populacional/listagem.dart';
 import 'package:flutter/material.dart';
 import 'Login/TelaInicial/tela_inicial.dart';
+import 'onboarding/onboarding_screen.dart';
 
 void main() {
   runApp(MaterialApp(
@@ -14,8 +15,9 @@ void main() {
       primaryColorLight: Color.fromRGBO(199, 227, 167, 1),
     ),
     title: 'ControllPest',
-    initialRoute: 'telaInicial',
+    initialRoute: 'onboarding',
     routes: {
+      'onboarding': (context) => OnboardingScreen(),
       'telaInicial': (context) => TelaInicial(),
       'listagemBrocaPopulacional': (context) => ListagemBrocaPopulacional(),
       'brocaPopulacional': (context) => OnbordingBrocaPopulacional()
