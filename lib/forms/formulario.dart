@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-// import 'broca_populacional.dart';
 
-class BrocaPopulacional extends StatefulWidget {
-
-  const BrocaPopulacional({ Key? key }) : super(key: key);
+class Formulario extends StatefulWidget {
+  const Formulario({ Key? key }) : super(key: key);
 
   @override
-  _BrocaPopulacionalState createState() => _BrocaPopulacionalState();
+  _FormularioState createState() => _FormularioState();
 }
 
-class _BrocaPopulacionalState extends State<BrocaPopulacional> {
+class _FormularioState extends State<Formulario> {
 
   var secao = TextEditingController();
   var quadra = TextEditingController();
@@ -40,7 +38,7 @@ class _BrocaPopulacionalState extends State<BrocaPopulacional> {
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.white,
           onPressed: () {
-            Navigator.pushNamed(context, 'listagemBrocaPopulacional');
+            Navigator.pop(context);
           },
         ),
         

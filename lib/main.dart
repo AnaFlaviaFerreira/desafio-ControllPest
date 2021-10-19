@@ -1,6 +1,5 @@
-import 'broca_populacional/onboarding.dart';
+import 'forms/onboarding.dart';
 
-import 'broca_populacional/listagem.dart';
 import 'package:flutter/material.dart';
 import 'Login/TelaInicial/tela_inicial.dart';
 
@@ -17,8 +16,7 @@ void main() {
     initialRoute: 'telaInicial',
     routes: {
       'telaInicial': (context) => TelaInicial(),
-      'listagemBrocaPopulacional': (context) => ListagemBrocaPopulacional(),
-      'brocaPopulacional': (context) => OnbordingBrocaPopulacional()
+      'formulario': (context) => OnbordingForm(),
     },
   ));
 }

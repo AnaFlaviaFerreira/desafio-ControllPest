@@ -1,3 +1,4 @@
+import 'package:desafio/forms/listagem.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -137,7 +138,7 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
                       style: TextStyle(color: Colors.green.shade400),
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, 'listagemBrocaPopulacional');
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => Listagem(title: dados[0].conteudo)));
                     },
                   ),
                 ),

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import 'broca_populacional.dart';
+import 'formulario.dart';
 
-class OnbordingBrocaPopulacional extends StatefulWidget {
-  const OnbordingBrocaPopulacional({ Key? key }) : super(key: key);
+class OnbordingForm extends StatefulWidget {
+  const OnbordingForm({ Key? key }) : super(key: key);
 
   @override
-  _OnbordingBrocaPopulacionalState createState() => _OnbordingBrocaPopulacionalState();
+  _OnbordingFormState createState() => _OnbordingFormState();
 }
 
-class _OnbordingBrocaPopulacionalState extends State<OnbordingBrocaPopulacional> {
+class _OnbordingFormState extends State<OnbordingForm> {
   final PageController _pageController = PageController();
   int currentIndex = 0;
   var text = Text("Previous");
@@ -34,9 +34,9 @@ class _OnbordingBrocaPopulacionalState extends State<OnbordingBrocaPopulacional>
             controller: _pageController,
             onPageChanged: onChangedFunction,
             children: [
-              BrocaPopulacional(),
-              BrocaPopulacional(),
-              BrocaPopulacional(),
+              Formulario(),
+              Formulario(),
+              Formulario(),
             ],
           ),
           Positioned(

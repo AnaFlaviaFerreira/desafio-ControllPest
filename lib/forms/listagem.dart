@@ -1,14 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class ListagemBrocaPopulacional extends StatefulWidget {
-  const ListagemBrocaPopulacional({ Key? key }) : super(key: key);
+class Listagem extends StatefulWidget {
+  final String title;
+  const Listagem({ Key? key, required this.title }) : super(key: key);
 
   @override
-  _ListagemBrocaPopulacionalState createState() => _ListagemBrocaPopulacionalState();
+  _ListagemState createState() => _ListagemState();
 }
 
-class _ListagemBrocaPopulacionalState extends State<ListagemBrocaPopulacional> {
+class _ListagemState extends State<Listagem> {
   var psecao = TextEditingController();
   var pquadra = TextEditingController();
   var ptalao = TextEditingController();
@@ -36,7 +37,7 @@ class _ListagemBrocaPopulacionalState extends State<ListagemBrocaPopulacional> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, 'brocaPopulacional');
+          Navigator.pushNamed(context, 'formulario');
         },
         child: Icon(Icons.add, color: Theme.of(context).primaryColor,),
         backgroundColor: Theme.of(context).primaryColorLight,
