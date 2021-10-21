@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Listagem extends StatefulWidget {
+  
   final String title;
   const Listagem({ Key? key, required this.title }) : super(key: key);
 
