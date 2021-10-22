@@ -1,3 +1,4 @@
+import 'Login/TelaInicial/tela_login.dart';
 import 'forms/onboarding.dart';
 
 import 'package:flutter/material.dart';
@@ -13,12 +14,13 @@ void main() {
       backgroundColor: Color.fromRGBO(246, 250, 241, 1),
       primaryColorLight: Color.fromRGBO(199, 227, 167, 1),
     ),
-    title: 'ControllPest',
+    title: 'Datamob Apontamentos',
     initialRoute: 'onboarding',
     routes: {
       'onboarding': (context) => OnboardingScreen(),
       'telaInicial': (context) => TelaInicial(),
       'formulario': (context) => OnbordingForm(),
+      'telaLogin': (context) => TelaLogin(),
     },
   ));
 }

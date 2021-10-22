@@ -2,6 +2,7 @@ import 'dart:html';
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class TelaLogin extends StatefulWidget {
   const TelaLogin({Key? key}) : super(key: key);
@@ -24,18 +25,19 @@ class _TelaLoginState extends State<TelaLogin> {
         height: double.maxFinite,
         child: Stack(
           children: [
-            Positioned(
-              top: 0,
-              bottom: MediaQuery.of(context).size.height/2,
+            Container(
               child: Image.asset(
                 "images/backgroundlogin.png",
+                fit: BoxFit.cover,
+                width: MediaQuery.of(context).size.width,
               ),
              ),
-             Positioned(
-               top: 250,
+             Container(
+               alignment: Alignment.center,
+               margin: EdgeInsets.only(bottom: 230),
                child: Image.asset(
-                 "images/icone.png",
-               ),
+                    "images/icone.png",
+                  ),
              ),
              Positioned(
                top: 380,
@@ -64,45 +66,71 @@ class _TelaLoginState extends State<TelaLogin> {
                      SizedBox(
                        height: 15,
                      ),
+                      Container(
+                        padding: EdgeInsets.fromLTRB(0, 6, 0, 6),
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Usuário',
+                          textAlign: TextAlign.start,
+                          style:
+                            GoogleFonts.poppins(fontSize: 16, color: Theme.of(context).primaryColor),
+                        ),
+                      ),
 
                      TextField(
                        controller: txtUsuario,
                        style: TextStyle(
+                         color: Theme.of(context).primaryColor,
                          fontSize: 15,
                        ),
+                       cursorColor: Theme.of(context).secondaryHeaderColor,
                        decoration: InputDecoration(
                          enabledBorder: OutlineInputBorder(
-                           borderSide: BorderSide(
-                             color: Colors.lightGreen.shade800),
-                             ),
-                         labelText: 'Usuário',
-                         hintText: 'Digite seu usuário',
-                         labelStyle: TextStyle(
-                           color: Colors.lightGreen.shade800,
-                           fontSize: 15,
+                           borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 1.0),
                           ),
+                         focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Theme.of(context).secondaryHeaderColor, width: 1.0)
+                         ),
+                         contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                         hintText: 'Digite seu usuário',
                        ),
                      ),
+                     
                      SizedBox( 
-                      height:20,
+                      height:10,
+                      ),
+
+                      Container(
+                        padding: EdgeInsets.fromLTRB(0, 6, 0, 6),
+                        alignment: Alignment.topLeft,
+                        child: Text(
+                          'Senha',
+                          textAlign: TextAlign.start,
+                          style:
+                            GoogleFonts.poppins(fontSize: 16, color: Theme.of(context).primaryColor),
+                        ),
                       ),
                      TextField(
                        controller: txtSenha,
                        obscureText: true,
                        style: TextStyle(
+                         color: Theme.of(context).primaryColor,
                          fontSize: 15,
                        ),
+                       cursorColor: Theme.of(context).secondaryHeaderColor,
                        decoration: InputDecoration(
-                         labelText: 'Senha',
-                         labelStyle: TextStyle(
-                             color: Colors.lightGreen.shade800,
-                             fontSize: 15,
-                           ),
                          enabledBorder: OutlineInputBorder(
                            borderSide: BorderSide(
-                             color: Colors.lightGreen.shade800,)
-                           ),
+                             color: Theme.of(context).primaryColor, 
+                             width: 1.0
+                            ),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: BorderSide(color: Theme.of(context).secondaryHeaderColor, width: 1.0)
+                          ),
+                          contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                            hintText: 'Digite sua senha',
+                           suffixIcon: Icon(Icons.visibility_off, color: Theme.of(context).primaryColor),
                         ),
                       ),
                       SizedBox( 
@@ -129,7 +157,7 @@ class _TelaLoginState extends State<TelaLogin> {
                                 if ((user == 'USUARIO1' || user == 'USUARIO2') && pwd == '1234'
                                 ){
                                   Navigator.pushNamed(context,
-                                   'TelaInicial',
+                                   'telaInicial',
                                      arguments: user,
                                    );               
                                    } else {
