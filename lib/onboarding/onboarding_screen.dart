@@ -59,7 +59,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                   alignment: Alignment.centerRight,
                   child: FlatButton(
                     onPressed: () =>
-                        Navigator.pushNamed(context, 'telaInicial'),
+                        Navigator.pushNamed(context, 'telaLogin'),
                     child: Text(
                       'Pular',
                       style: TextStyle(
@@ -276,7 +276,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
               width: double.infinity,
               color: Theme.of(context).primaryColor,
               child: GestureDetector(
-                onTap: () => Navigator.pushNamed(context, 'telaInicial'),
+                onTap: () => Navigator.pushNamed(context, 'telaLogin'),
                 child: Center(
                   child: Padding(
                     padding: EdgeInsets.only(bottom: 5.0),
