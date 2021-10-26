@@ -86,7 +86,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                           children: <Widget>[
                             SizedBox(height: 0.0),
                             Text(
-                              'Seja bem-vindo ao Datamob Apontamentos!',
+                              'Seja bem-vindo ao DatamobApontamentos!',
                               style: GoogleFonts.poppins(
                                   fontSize: 24,
                                   fontWeight: FontWeight.w600,
@@ -176,7 +176,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> {
                             ),
                             SizedBox(height: 15.0),
                             Text(
-                              'Preencha nosso formulário informando a localização do invasor',
+                              'Preencha nosso formulário informando a localização do invasor.',
                               style: GoogleFonts.poppins(
                                   fontSize: 16,
                                   color: Theme.of(context).primaryColor),
