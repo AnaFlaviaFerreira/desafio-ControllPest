@@ -22,7 +22,7 @@ class _ListagemState extends State<Listagem> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Broca Populacional'),
+        title: Text(widget.title),
         centerTitle: false,
         backgroundColor: Theme.of(context).primaryColor,
         actions: [],

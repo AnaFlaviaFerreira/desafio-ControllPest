@@ -1,5 +1,4 @@
 import 'package:desafio/Login/TelaInicial/tela_login.dart';
-import 'package:desafio/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 

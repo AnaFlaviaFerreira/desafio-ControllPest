@@ -59,6 +59,8 @@ class ApresentacaoUsuario extends StatefulWidget {
 class _ApresentacaoUsuarioState extends State<ApresentacaoUsuario> {
   @override
   Widget build(BuildContext context) {
+    var usr = ModalRoute.of(context)!.settings.arguments.toString();
+    var user = usr == 'USUARIO1' || usr == 'USUARIO2' ? usr : 'USUARIO';
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Container(
@@ -68,7 +70,7 @@ class _ApresentacaoUsuarioState extends State<ApresentacaoUsuario> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Olá\nFulano!',
+              'Olá\n$user!',
               style: GoogleFonts.poppins(
                 fontSize: 24,
                 color: Colors.grey.shade900,
@@ -88,10 +90,9 @@ class _ApresentacaoUsuarioState extends State<ApresentacaoUsuario> {
 
 class Item {
   String titulo;
-  String conteudo;
   bool estado;
   String imagem;
-  Item(this.titulo, this.conteudo, this.estado, this.imagem);
+  Item(this.titulo, this.estado, this.imagem);
 }
 
 class PainelExpansivo extends StatefulWidget {
@@ -103,8 +104,8 @@ class PainelExpansivo extends StatefulWidget {
 
 class _PainelExpansivoState extends State<PainelExpansivo> {
   var dados = [
-    Item('Entomologia', 'Broca Populacional', false,'assets/images/entomologia.png'),
-    Item('Auditoria', 'Plantio Mecanizado', false, 'assets/images/auditoria.png')
+    Item('Entomologia', false,'assets/images/entomologia.png'),
+    Item('Auditoria', false, 'assets/images/auditoria.png')
   ];
 
   @override
@@ -131,16 +132,21 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
                   );
                 },
                 body: Container(
-                  margin: EdgeInsets.all(15),
+                  margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
                   child:
-                  TextButton(
-                    child: Text(
-                      dados[0].conteudo,
-                      style: TextStyle(color: Colors.green.shade400),
-                    ),
-                    onPressed: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => Listagem(title: dados[0].conteudo)));
-                    },
+                  Column(
+                    children: [
+                      Divider(
+                        color: Color.fromRGBO(219, 235, 200, 1),
+                      ),
+                      text('Broca Populacional'),
+                      text('Broca RevLaboratorio'),
+                      text('Broca/Cigarrinha'),
+                      text('Broquinha - Control Quimico'),
+                      text('Cigarrinhas'),
+                      text('Contr. Quimico e Populacional'),
+                      text('Cupins'),
+                    ],
                   ),
                 ),
                 isExpanded: dados[0].estado,
@@ -154,19 +160,36 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
                 },
                 body: Container(
                   padding: EdgeInsets.all(15),
-                  child: TextButton(
-                    child: Text(
-                      dados[1].conteudo,
-                      style: TextStyle(color: Colors.green.shade400),
-                    ),
-                    onPressed: () {},
-                  ),
+                  child:
+                    Column(
+                      children: [
+                        Divider(
+                          color: Color.fromRGBO(219, 235, 200, 1),
+                        ),
+                        text('Plantio Mecanizado'),
+                      ],
+                    )
                 ),
                 isExpanded: dados[1].estado,
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  text(conteudo) {
+    return Container(
+      child: TextButton(
+        child: Text(
+          conteudo,
+          style: TextStyle(color: Colors.green.shade400),
+          textAlign: TextAlign.start,
+        ),
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => Listagem(title: conteudo)));
+        },
       ),
     );
   }
