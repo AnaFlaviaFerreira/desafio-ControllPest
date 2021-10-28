@@ -132,7 +132,8 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
                 },
                 body: Container(
                   margin: EdgeInsets.all(15),
-                  child: TextButton(
+                  child:
+                  TextButton(
                     child: Text(
                       dados[0].conteudo,
                       style: TextStyle(color: Colors.green.shade400),

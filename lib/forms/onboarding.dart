@@ -19,12 +19,6 @@ class _OnbordingFormState extends State<OnbordingForm> {
   static const _kDuration = const Duration(milliseconds: 300);
   static const _kCurve = Curves.easeInCirc;
 
-  // @override
-  // void dispose() {
-  //   _pageController.dispose();
-  //   super.dispose();
-  // }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(

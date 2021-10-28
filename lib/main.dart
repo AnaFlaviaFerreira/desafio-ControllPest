@@ -6,7 +6,15 @@ import 'Login/TelaInicial/tela_inicial.dart';
 import 'onboarding/onboarding_screen.dart';
 
 void main() {
-  runApp(MaterialApp(
+  runApp(Desafio());
+}
+
+class Desafio extends StatelessWidget {
+  const Desafio({ Key? key }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
     debugShowCheckedModeBanner: false,
     theme: ThemeData(
       primaryColor: Color.fromRGBO(83, 116, 45, 1),
@@ -22,5 +30,6 @@ void main() {
       'formulario': (context) => OnbordingForm(),
       'telaLogin': (context) => TelaLogin(),
     },
-  ));
+  );
+  }
 }
