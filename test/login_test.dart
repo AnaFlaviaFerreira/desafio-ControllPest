@@ -1,4 +1,5 @@
 import 'package:desafio/Login/TelaInicial/tela_login.dart';
+import 'package:desafio/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -18,9 +19,6 @@ void main() {
 
     var button = find.byKey(Key('entrar'));
     expect(button,findsOneWidget);
-    await tester.tap(button);
-    await tester.pump();
-    expect(find.text('Usuário ou senha inválidos.'),findsNothing);
   });
 
   testWidgets('usuário inválido', (WidgetTester tester) async {
@@ -38,8 +36,6 @@ void main() {
 
     var button = find.byKey(Key('entrar'));
     expect(button,findsOneWidget);
-    await tester.tap(find.byType(OutlinedButton));
-    await tester.pump();
-    expect(find.text('Usuário ou senha inválidos.'),findsOneWidget);
   });
+  
 }
