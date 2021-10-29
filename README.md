@@ -7,5 +7,5 @@ Guilherme Fávaro - RA: 832922 \
 Lorene Zorzetto Carniel - RA: 832401
 
 ## Login
-Login: USUARIO1
+Login: USUARIO1 \
 Senha: 1234
