@@ -1,3 +1,5 @@
+import 'package:desafio/forms/listagem.dart';
+
 import 'Login/TelaInicial/tela_login.dart';
 import 'forms/onboarding.dart';
 
@@ -29,6 +31,7 @@ class Desafio extends StatelessWidget {
       'telaInicial': (context) => TelaInicial(),
       'formulario': (context) => OnbordingForm(),
       'telaLogin': (context) => TelaLogin(),
+      'listagem': (context) => Listagem()
     },
   );
   }

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Listagem extends StatefulWidget {
-  
-  final String title;
-  const Listagem({ Key? key, required this.title }) : super(key: key);
+
+  const Listagem({ Key? key}) : super(key: key);
 
   @override
   _ListagemState createState() => _ListagemState();
@@ -20,9 +19,10 @@ class _ListagemState extends State<Listagem> {
 
   @override
   Widget build(BuildContext context) {
+    var title = ModalRoute.of(context)!.settings.arguments.toString();
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(title),
         centerTitle: false,
         backgroundColor: Theme.of(context).primaryColor,
         actions: [],
@@ -36,7 +36,7 @@ class _ListagemState extends State<Listagem> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, 'formulario');
+          Navigator.pushNamed(context, 'formulario', arguments: title);
         },
         child: Icon(
           Icons.add,

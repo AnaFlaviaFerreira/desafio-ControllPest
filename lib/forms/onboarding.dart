@@ -22,6 +22,7 @@ class _OnbordingFormState extends State<OnbordingForm> {
 
   @override
   Widget build(BuildContext context) {
+    var titleL = ModalRoute.of(context)!.settings.arguments.toString();
     return Scaffold(
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -79,14 +80,23 @@ class _OnbordingFormState extends State<OnbordingForm> {
                     ),
                     TextButton(
                         onPressed: () {
-                          if (currentIndex != 2)
+                          if (currentIndex != 2) {
                             _pageController.nextPage(
-                                duration: _kDuration, curve: _kCurve);
-                          else
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            duration: _kDuration, curve: _kCurve);
+                          }
+                          else {
+                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content:
                                   Text('Amostra 1 adicionada com sucesso!'),
                             ));
+                            Navigator.pop(context);
+                            Navigator.pushNamed(
+                              context,
+                              'listagem',
+                              arguments: titleL,
+                            );
+                          }
+                           
                         },
                         child: texto(
                             false,

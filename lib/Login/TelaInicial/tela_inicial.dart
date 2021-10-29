@@ -188,7 +188,11 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
           textAlign: TextAlign.start,
         ),
         onPressed: () {
-          Navigator.push(context, MaterialPageRoute(builder: (context) => Listagem(title: conteudo)));
+          Navigator.pushNamed(
+            context,
+            'listagem',
+            arguments: conteudo,
+          ); 
         },
       ),
     );
