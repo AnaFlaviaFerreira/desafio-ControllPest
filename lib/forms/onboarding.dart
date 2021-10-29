@@ -1,3 +1,4 @@
+import 'package:desafio/forms/tela_imagens.dart';
 import 'package:desafio/forms/tela_mapa.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -31,7 +32,7 @@ class _OnbordingFormState extends State<OnbordingForm> {
             children: [
               Formulario(),
               TelaMapa(),
-              Formulario(),
+              TelaImagens(),
             ],
           ),
           Positioned(
