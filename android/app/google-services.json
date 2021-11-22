@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "124944647443",
+    "project_id": "desafio-controllpest",
+    "storage_bucket": "desafio-controllpest.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:124944647443:android:b1359cbf1c2268565f46e6",
+        "android_client_info": {
+          "package_name": "com.example.desafio"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "124944647443-6m63n2ksl6ka3bocldeptl1p46khh6l5.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB6NW6jQmvoeRj5WuQqOMcWQlSeaBLZHOU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "124944647443-6m63n2ksl6ka3bocldeptl1p46khh6l5.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
