@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -16,6 +17,46 @@ class _ListagemState extends State<Listagem> {
   var pesquisa = TextEditingController();
   bool _isVisible = false;
   var visualizar = false;
+  var lista;
+
+  @override
+  void initState() {
+    super.initState();
+
+    //Referenciar a Coleção desejada
+    //cafes = FirebaseFirestore.instance.collection('cafes')
+    //  .where('nome', isEqualTo: 'UTAM'); - filtro
+    lista = FirebaseFirestore.instance.collection('brocas');
+  }
+
+  Widget exibirItem(item) {
+    String amostra = item.data()['amostra'];
+    String secao = item.data()['secao'];
+    return ListTile(
+      title: Text(
+        amostra,
+        style: const TextStyle(fontSize: 30),
+      ),
+      subtitle: Text(
+        'R\$ $secao',
+        style: const TextStyle(fontSize: 24),
+      ),
+      trailing: SizedBox(
+        width: 80,
+        child: Row(
+          children: [
+            IconButton(onPressed: (){
+              Navigator.pushNamed(context, 'formulario', arguments:  item.id);
+            }, icon: const Icon(Icons.edit)),
+            IconButton(onPressed: (){
+              //DELETAR UM DOCUMENTO
+              lista.doc(item.id).delete();
+            }, icon: const Icon(Icons.delete)),
+          ],
+        ),
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -107,36 +148,63 @@ class _ListagemState extends State<Listagem> {
 
   listagem() {
     return Container(
-      child: ListView.builder(
-        itemCount: 8,
-        itemBuilder: (BuildContext context, int index) {
-          return Container(
-            child: ListTile(
-              contentPadding: EdgeInsets.symmetric(horizontal: 34),
-              hoverColor: Theme.of(context).backgroundColor,
-              title: Row(
-                children: [
-                  textoLista('Amostra ${index + 1}', 145),
-                  textoLista('x1', 80.0),
-                  textoLista('x2', 95.0),
-                  textoLista('x3', 0.0),
-                ],
-              ),
-              onTap: () {
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  content: Text('Você clicou na amostra ${index + 1}'),
-                ));
-              },
-            ),
-            decoration: BoxDecoration(
-                border: Border(
-                    bottom: BorderSide(color: Color.fromRGBO(230, 232, 229, 1)),
-                    top: index == 0
-                        ? BorderSide(color: Color.fromRGBO(230, 232, 229, 1))
-                        : BorderSide.none)),
-          );
-        },
-      ),
+      padding: const EdgeInsets.all(20),
+        child: StreamBuilder<QuerySnapshot>( //toda e qualquer opração no firestore, FutureBuilder - não monitora em tempo real
+          //fonte de dados (coleção)
+          stream: lista.snapshots(),
+
+          //exibir os dados recuperados
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.none:
+                return const Center(
+                  child: Text('Não foi possível conectar ao Firestore'),
+                );
+
+              case ConnectionState.waiting:
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+
+              default:
+                final dados = snapshot.requireData;
+                if (dados.size == 0) {
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image.asset(
+                          'assets/images/Logo cinza.png',
+                          fit: BoxFit.fitHeight,
+                          width: 100,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 30),
+                          child: Text(
+                            'Nenhuma amostra encontrada!',
+                            style: GoogleFonts.poppins(
+                              fontSize: 18,
+                              color: Colors.grey.shade400,
+                              fontWeight: FontWeight.bold
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                } else {
+                  return ListView.builder(
+                    itemCount: dados.size,
+                    itemBuilder: (context, index) {
+                      return exibirItem(dados.docs[index]);
+                    },
+                  );
+                }
+            }
+          },
+        ),
     );
   }
 
