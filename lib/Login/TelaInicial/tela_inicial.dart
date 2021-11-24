@@ -28,7 +28,7 @@ class _TelaInicialState extends State<TelaInicial> {
             color: Color.fromRGBO(219, 235, 200, 1),
           ),
           Container(
-            padding: EdgeInsets.fromLTRB(50,20,50,5),
+            padding: EdgeInsets.fromLTRB(50, 20, 50, 5),
             margin: EdgeInsets.all(10),
             child: Row(
               children: [
@@ -60,7 +60,7 @@ class _ApresentacaoUsuarioState extends State<ApresentacaoUsuario> {
   @override
   Widget build(BuildContext context) {
     var usr = ModalRoute.of(context)!.settings.arguments.toString();
-    var user = usr == 'USUARIO1' || usr == 'USUARIO2' ? usr : 'USUARIO';
+
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: Container(
@@ -70,7 +70,7 @@ class _ApresentacaoUsuarioState extends State<ApresentacaoUsuario> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              'Olá\n$user!',
+              'Olá\n$usr!',
               style: GoogleFonts.poppins(
                 fontSize: 24,
                 color: Colors.grey.shade900,
@@ -104,7 +104,7 @@ class PainelExpansivo extends StatefulWidget {
 
 class _PainelExpansivoState extends State<PainelExpansivo> {
   var dados = [
-    Item('Entomologia', false,'assets/images/entomologia.png'),
+    Item('Entomologia', false, 'assets/images/entomologia.png'),
     Item('Auditoria', false, 'assets/images/auditoria.png')
   ];
 
@@ -116,7 +116,7 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
         child: Container(
           color: Theme.of(context).backgroundColor,
           margin: EdgeInsets.all(10),
-          padding: EdgeInsets.symmetric(vertical:20, horizontal: 50),
+          padding: EdgeInsets.symmetric(vertical: 20, horizontal: 50),
           child: ExpansionPanelList(
             expansionCallback: (int index, bool isExpanded) {
               setState(() {
@@ -127,14 +127,16 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
               ExpansionPanel(
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Image.asset(dados[0].imagem, scale: 1.0,),
+                    leading: Image.asset(
+                      dados[0].imagem,
+                      scale: 1.0,
+                    ),
                     title: Text(dados[0].titulo),
                   );
                 },
                 body: Container(
                   margin: EdgeInsets.fromLTRB(15, 0, 15, 15),
-                  child:
-                  Column(
+                  child: Column(
                     children: [
                       Divider(
                         color: Color.fromRGBO(219, 235, 200, 1),
@@ -154,22 +156,23 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
               ExpansionPanel(
                 headerBuilder: (BuildContext context, bool isExpanded) {
                   return ListTile(
-                    leading: Image.asset(dados[1].imagem, scale: 1.0,),
+                    leading: Image.asset(
+                      dados[1].imagem,
+                      scale: 1.0,
+                    ),
                     title: Text(dados[1].titulo),
                   );
                 },
                 body: Container(
-                  padding: EdgeInsets.all(15),
-                  child:
-                    Column(
+                    padding: EdgeInsets.all(15),
+                    child: Column(
                       children: [
                         Divider(
                           color: Color.fromRGBO(219, 235, 200, 1),
                         ),
                         text('Plantio Mecanizado'),
                       ],
-                    )
-                ),
+                    )),
                 isExpanded: dados[1].estado,
               ),
             ],
@@ -192,7 +195,7 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
             context,
             'listagem',
             arguments: conteudo,
-          ); 
+          );
         },
       ),
     );
