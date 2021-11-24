@@ -70,7 +70,7 @@ class _TelaLoginState extends State<TelaLogin> {
                         padding: EdgeInsets.fromLTRB(0, 6, 0, 6),
                         alignment: Alignment.topLeft,
                         child: Text(
-                          'Usuário',
+                          'E-mail',
                           textAlign: TextAlign.start,
                           style: GoogleFonts.poppins(
                               fontSize: 16,
@@ -96,7 +96,7 @@ class _TelaLoginState extends State<TelaLogin> {
                                   color: Theme.of(context).secondaryHeaderColor,
                                   width: 1.0)),
                           contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-                          hintText: 'Digite seu usuário',
+                          hintText: 'Digite seu e-mail',
                         ),
                       ),
                       SizedBox(
@@ -173,10 +173,11 @@ class _TelaLoginState extends State<TelaLogin> {
   }
 
   void login(email, senha) {
+    var user = txtUsuario.text.toUpperCase();
     FirebaseAuth.instance
         .signInWithEmailAndPassword(email: email, password: senha)
         .then((value) {
-      Navigator.pushReplacementNamed(context, 'telaInicial');
+      Navigator.pushReplacementNamed(context, 'telaInicial', arguments: user);
     }).catchError((erro) {
       var msg = '';
       if (erro.code == 'user-not-found') {
