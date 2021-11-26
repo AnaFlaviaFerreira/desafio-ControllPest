@@ -190,10 +190,20 @@ class _TelaLoginState extends State<TelaLogin> {
       }
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text(msg),
+          content: Row(
+            children: [
+              Icon(
+                Icons.dangerous_outlined,
+                color: Colors.red,
+              ),
+              Padding(padding: EdgeInsets.only(left: 15)),
+              Text(msg, style: GoogleFonts.poppins(color: Colors.white)),
+            ],
+          ),
           duration: Duration(
             seconds: 2,
           ),
+           backgroundColor: Colors.black,
         ),
       );
     });
