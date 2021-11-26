@@ -3,7 +3,6 @@ import 'package:desafio/forms/tela_imagens.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-
 class OnbordingFormTest extends StatefulWidget {
   const OnbordingFormTest({Key? key}) : super(key: key);
 
@@ -19,9 +18,9 @@ class _OnbordingFormTestState extends State<OnbordingFormTest> {
   static const _kDuration = const Duration(milliseconds: 300);
   static const _kCurve = Curves.easeInCirc;
 
-  var secao = TextEditingController();
-  var quadra = TextEditingController();
-  var talao = TextEditingController();
+  var secao;
+  var quadra;
+  var talao;
   var level = TextEditingController();
   var pequenas = TextEditingController();
   var aptas = TextEditingController();
@@ -38,6 +37,7 @@ class _OnbordingFormTestState extends State<OnbordingFormTest> {
   var latitude = TextEditingController();
   var longitude = TextEditingController();
   var tamanhoTabela;
+  var selectedValue;
 
   @override
   Widget build(BuildContext context) {
@@ -145,9 +145,9 @@ class _OnbordingFormTestState extends State<OnbordingFormTest> {
                             .add(
                               {
                                 'amostra': tamanhoTabela,
-                                'secao':secao.text,
-                                'quadra':quadra.text,
-                                'talhao':talao.text,
+                                'secao':secao,
+                                'quadra':quadra,
+                                'talhao':talao,
                                 'level':level.text,
                                 'aptas':aptas.text,
                                 'pequenas':pequenas.text,
@@ -160,19 +160,17 @@ class _OnbordingFormTestState extends State<OnbordingFormTest> {
                               }
                             ).catchError((erro) {
                               erro = erro.toString();
-                              print(erro.toString());
                             });
-
                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Row(
                                 children: [
                                   Icon(
-                                    Icons.check_circle_outline,
-                                    color: Theme.of(context).primaryColorLight,
+                                    erro == '' ? Icons.check_circle_outline : Icons.dangerous_outlined,
+                                    color: erro == '' ? Theme.of(context).primaryColorLight : Colors.red,
                                   ),
                                   Padding(padding: EdgeInsets.only(left: 15)),
                                   Text(
-                                    'Amostra $tamanhoTabela adicionada com sucesso!',
+                                    erro == '' ? 'Amostra $tamanhoTabela adicionada com sucesso!' : erro,
                                     style: GoogleFonts.poppins(color: Colors.white)
                                   ),
                                 ],
@@ -184,12 +182,6 @@ class _OnbordingFormTestState extends State<OnbordingFormTest> {
                             ));
                             
                             Navigator.pop(context);
-                            /*Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => Listagem(tabela: info['tabela'], titleAplication: info['title'], usuario: info['usuario'])
-                              ),
-                            );*/
                           }
                            
                         },
@@ -257,7 +249,7 @@ class _OnbordingFormTestState extends State<OnbordingFormTest> {
       ),
     );
   }
-
+  
   textoForm(texto, negrito) {
     return Container(
       child: Padding(
@@ -363,6 +355,73 @@ class _OnbordingFormTestState extends State<OnbordingFormTest> {
     );
   }
 
+  comboForm(texto,menu, chave) {
+    var lista;
+    if (chave == 'form_secao') {
+      lista = [
+        DropdownMenuItem(child: Text('FAZENDA SÃO JOSÉ'), value: '1'),
+        DropdownMenuItem(child: Text('FAZENDA SÃO SIMÃO'), value: '2'),
+      ];
+    } else if (chave == 'form_quadra') {
+      lista = [
+        DropdownMenuItem(child: Text('1'), value: '1'),
+        DropdownMenuItem(child: Text('2'), value: '2'),
+      ];
+    } else {
+      lista = [
+        DropdownMenuItem(child: Text('1'), value: '1'),
+        DropdownMenuItem(child: Text('2'), value: '2'),
+      ];
+    }
+    return Container(
+      padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 6, 0, 6),
+            child: Text(
+              texto,
+              textAlign: TextAlign.end,
+              style:
+                  GoogleFonts.poppins(fontSize: 16, color: Theme.of(context).primaryColor),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Theme.of(context).primaryColor),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8.0,0,8.0,0),
+              child: DropdownButton<String>(
+                key: Key(chave),
+                value: chave == 'form_secao' ? secao : (chave == 'form_quadra' ? quadra : talao),
+                isExpanded: true,
+                icon: Icon(Icons.keyboard_arrow_down_sharp, color: Theme.of(context).primaryColor,),
+                underline: SizedBox(),
+                onChanged: (String? newValue){
+                  setState(() {
+                    if (chave == 'form_secao') {
+                      secao = newValue.toString();
+                    } else if (chave == 'form_quadra') {
+                      quadra = newValue.toString();
+                    } else {
+                      talao = newValue.toString();
+                    }
+                    
+                  });
+                },
+                items: lista,
+              )
+            )
+          ),
+        ],
+      ),
+    );
+  }
+
   Widget formulario(){
     title = Text('Adicionar Amostra');
     return Container(
@@ -383,14 +442,14 @@ class _OnbordingFormTestState extends State<OnbordingFormTest> {
               Divider(
                 color: Color.fromRGBO(219, 235, 200, 1),
               ),
-              campoForm('Seção (fazenda)', secao, true, 'form_secao'),
+              comboForm('Seção (fazenda)', secao,'form_secao'),
               Row(
                 children: [
                   Expanded(
-                    child: Padding(padding: EdgeInsets.only(right: 16), child: campoForm('Quadra (Gleba)',quadra, true, 'form_quadra'),),
+                    child: Padding(padding: EdgeInsets.only(right: 16), child: comboForm('Quadra (Gleba)',quadra, 'form_quadra'),),
                   ),
                   Expanded(
-                    child: campoForm('Talhão',talao, true, 'form_talhao'),
+                    child: comboForm('Talhão', talao,'form_talhao'),
                   ),
                 ],
               ),
@@ -475,9 +534,9 @@ class _OnbordingFormTestState extends State<OnbordingFormTest> {
   }
 
   validacaoCamposAmostra() {
-    if (secao.text.isEmpty) { mensagem('Preencha o campo Sessão (fazenda)'); }
-    else if (quadra.text.isEmpty) { mensagem('Preencha o campo Quadra (Gleba)'); }
-    else if (talao.text.isEmpty) { mensagem('Preencha o campo Talhão'); }
+    if (secao == null) { mensagem('Preencha o campo Seção (fazenda)'); }
+    else if (quadra == null) { mensagem('Preencha o campo Quadra (Gleba)'); }
+    else if (talao == null) { mensagem('Preencha o campo Talhão'); }
     else if (level.text.isEmpty) { mensagem('Preencha o campo Nro. Lev'); }
     else if (aptas.text.isEmpty) { mensagem('Preencha o campo Aptas'); }
     else if (pequenas.text.isEmpty) { mensagem('Preencha o campo Pequenas'); }

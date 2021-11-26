@@ -32,31 +32,51 @@ class _ListagemState extends State<Listagem> {
 
   Widget exibirItem(item) {
     int amostra = item.data()['amostra'];
-    String secao = item.data()['secao'];
+    String secao = '';
     String quadra = item.data()['quadra'];
     String talhao = item.data()['talhao'];
+
+    if (item.data()['secao'] == 1 || item.data()['secao'] == '1') {
+      secao = 'SÃO JOSÉ';
+    } else {
+      secao = 'SÃO SIMÃO';
+    }
     
-    return ListTile(
-      title: Row(
-        children: [
-          textoLista('Amostra $amostra', 0.0, 0.0),
-          textoLista(secao, 40.0, 30.0),
-          textoLista(quadra, 0.0, 0.0),
-          textoLista(talhao, 30.0, 35.0),
-        ],
+    return Card(
+      shape: RoundedRectangleBorder(
+        side: BorderSide(color: Theme.of(context).primaryColor, width: 1),
+        borderRadius: BorderRadius.circular(5),
       ),
-      trailing: SizedBox(
-        width: 80,
-        child: Row(
+      child: ListTile(
+        title: Text('Amostra $amostra', style: GoogleFonts.poppins(fontSize: 16),),
+        // Row(
+        //   children: [
+        //     textoLista('$amostra', 0.0, 80.0),
+        //     textoLista(secao, 0.0, 50.0),
+        //     textoLista(quadra, 0.0, 0.0),
+        //     textoLista(talhao, 30.0, 40.0),
+        //   ],
+        // ),
+        subtitle: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            IconButton(onPressed: (){
-              Navigator.pushNamed(context, 'formulario', arguments:  item.id);
-            }, icon: const Icon(Icons.edit)),
-            IconButton(onPressed: (){
-              //DELETAR UM DOCUMENTO
-              lista.doc(item.id).delete();
-            }, icon: const Icon(Icons.delete)),
-          ],
+            Text('Seção: $secao', style: GoogleFonts.poppins(fontSize: 14),),
+            Text('Quadra: $quadra           Talhão: $talhao', style: GoogleFonts.poppins(fontSize: 14),),
+          ]
+        ),
+        trailing: SizedBox(
+          width: 80,
+          child: Row(
+            children: [
+              IconButton(onPressed: (){
+                Navigator.pushNamed(context, 'formulario', arguments:  item.id);
+              }, icon: Icon(Icons.edit, color: Theme.of(context).primaryColor,)),
+              IconButton(onPressed: (){
+                //DELETAR UM DOCUMENTO
+                lista.doc(item.id).delete();
+              }, icon: Icon(Icons.delete, color: Theme.of(context).primaryColor,)),
+            ],
+          ),
         ),
       ),
     );
@@ -141,17 +161,17 @@ class _ListagemState extends State<Listagem> {
                 ),
               ),
             ),
-            Padding(
-              padding: EdgeInsets.symmetric(horizontal: 34, vertical: 5),
-              child: Row(
-                children: [
-                  textoPadding('Amostra', 0.0, 0.0),
-                  textoPadding('Seção', 40.0, 30.0),
-                  textoPadding('Quadra', 0.0, 0.0),
-                  textoPadding('Talhão', 30.0, 35.0),
-                ],
-              ),
-            ),
+            // Padding(
+            //   padding: EdgeInsets.symmetric(horizontal: 34, vertical: 5),
+            //   child: Row(
+            //     children: [
+            //       textoPadding('Amostra', 0.0, 0.0),
+            //       textoPadding('Seção', 20.0, 70.0),
+            //       textoPadding('Quadra', 0.0, 0.0),
+            //       textoPadding('Talhão', 30.0, 35.0),
+            //     ],
+            //   ),
+            // ),
             Expanded(
               child: listagem(),
             ),
@@ -163,7 +183,7 @@ class _ListagemState extends State<Listagem> {
 
   listagem() {
     return Container(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
         child: StreamBuilder<QuerySnapshot>( //toda e qualquer opração no firestore, FutureBuilder - não monitora em tempo real
           //fonte de dados (coleção)
           stream: lista.snapshots(),
@@ -183,7 +203,6 @@ class _ListagemState extends State<Listagem> {
 
               default:
                 final dados = snapshot.requireData;
-                print(dados);
                 tamanhoTabela = dados.size;
                 if (dados.size == 0) {
                   return Center(
@@ -215,7 +234,6 @@ class _ListagemState extends State<Listagem> {
                   return ListView.builder(
                     itemCount: dados.size,
                     itemBuilder: (context, index) {
-                      print(dados.docs[index]);
                       return exibirItem(dados.docs[index]);
                     },
                   );
