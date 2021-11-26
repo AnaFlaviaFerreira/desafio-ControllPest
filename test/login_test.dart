@@ -1,5 +1,4 @@
 import 'package:desafio/Login/TelaInicial/tela_login.dart';
-import 'package:desafio/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 
@@ -23,7 +22,7 @@ void main() {
 
   testWidgets('usuário inválido', (WidgetTester tester) async {
     await tester.pumpWidget(MaterialApp(home: TelaLogin()));
-
+  
     var usuarioField = find.byKey(Key('usuario'));
     expect(usuarioField, findsOneWidget);
     await tester.enterText(usuarioField, 'user');

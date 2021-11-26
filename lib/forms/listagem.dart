@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Listagem extends StatefulWidget {
-
-  const Listagem({ Key? key}) : super(key: key);
+  final String tabela;
+  final String titleAplication;
+  final String usuario;
+  const Listagem({ Key? key, required this.tabela, required this.titleAplication, required this.usuario}) : super(key: key);
 
   @override
   _ListagemState createState() => _ListagemState();
@@ -18,28 +20,33 @@ class _ListagemState extends State<Listagem> {
   bool _isVisible = false;
   var visualizar = false;
   var lista;
+  var tabela;
+  int tamanhoTabela = 0;
 
   @override
   void initState() {
     super.initState();
-
-    //Referenciar a Coleção desejada
-    //cafes = FirebaseFirestore.instance.collection('cafes')
-    //  .where('nome', isEqualTo: 'UTAM'); - filtro
-    lista = FirebaseFirestore.instance.collection('brocas');
+    tabela = widget.tabela;
+    lista = FirebaseFirestore.instance.collection(widget.tabela);
   }
 
   Widget exibirItem(item) {
-    String amostra = item.data()['amostra'];
-    String secao = item.data()['secao'];
+    print(item);
+    int amostra = item.data()['amostra'];
+    print(amostra);
+    
     return ListTile(
-      title: Text(
-        amostra,
-        style: const TextStyle(fontSize: 30),
-      ),
-      subtitle: Text(
-        'R\$ $secao',
-        style: const TextStyle(fontSize: 24),
+      title: Row(
+        children: [
+          Text(
+            'Amostra $amostra',
+            style: const TextStyle(fontSize: 16),
+          ),
+          Text(
+            'teste',
+            style: const TextStyle(fontSize: 16),
+          ),
+        ],
       ),
       trailing: SizedBox(
         width: 80,
@@ -60,10 +67,12 @@ class _ListagemState extends State<Listagem> {
 
   @override
   Widget build(BuildContext context) {
-    var title = ModalRoute.of(context)!.settings.arguments.toString();
+    // var title = ModalRoute.of(context)!.settings.arguments.toString();
+    //var info = ModalRoute.of(context)!.settings.arguments as Map;
+    tabela = widget.tabela;
     return Scaffold(
       appBar: AppBar(
-        title: Text(title),
+        title: Text(widget.titleAplication),
         centerTitle: false,
         backgroundColor: Theme.of(context).primaryColor,
         actions: [],
@@ -71,13 +80,22 @@ class _ListagemState extends State<Listagem> {
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.white,
           onPressed: () {
-            Navigator.pushNamed(context, 'telaInicial');
+            Navigator.pushNamed(context, 'telaInicial', arguments: widget.usuario);
           },
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, 'formulario', arguments: title);
+          // Navigator.pushNamed(context, 'formulario', arguments: title);
+          Navigator.pushNamed(
+            context,
+            'onboardingTeste',
+            arguments: {
+              'title': widget.titleAplication,
+              'tabela': tabela,
+              'usuario': widget.usuario,
+              'tamanho': tamanhoTabela
+            });
         },
         child: Icon(
           Icons.add,
@@ -168,6 +186,8 @@ class _ListagemState extends State<Listagem> {
 
               default:
                 final dados = snapshot.requireData;
+                print(dados);
+                tamanhoTabela = dados.size;
                 if (dados.size == 0) {
                   return Center(
                     child: Column(
@@ -198,6 +218,7 @@ class _ListagemState extends State<Listagem> {
                   return ListView.builder(
                     itemCount: dados.size,
                     itemBuilder: (context, index) {
+                      print(dados.docs[index]);
                       return exibirItem(dados.docs[index]);
                     },
                   );

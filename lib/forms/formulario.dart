@@ -64,14 +64,14 @@ class _FormularioState extends State<Formulario> {
                 Divider(
                   color: Color.fromRGBO(219, 235, 200, 1),
                 ),
-                campo('Seção (fazenda)', secao, true),
+                campo('Seção (fazenda)', secao, true, 'form_secao'),
                 Row(
                   children: [
                     Expanded(
-                      child: Padding(padding: EdgeInsets.only(right: 16), child: campo('Quadra (Gleba)',quadra, true),),
+                      child: Padding(padding: EdgeInsets.only(right: 16), child: campo('Quadra (Gleba)',quadra, true, 'form_quadra'),),
                     ),
                     Expanded(
-                      child: campo('Talhão',talao, true),
+                      child: campo('Talhão',talao, true, 'form_talhao'),
                     ),
                   ],
                 ),
@@ -81,46 +81,46 @@ class _FormularioState extends State<Formulario> {
                 Row(
                   children: [
                     Expanded(
-                      child: campo('Nro. Lev.', level, false),
+                      child: campo('Nro. Lev.', level, false, 'form_level'),
                     ),
                     Padding(
                       padding: EdgeInsets.fromLTRB(16, 20, 10, 0),
-                      child: botao('PRÉ',pre, 'pre'),
+                      child: botao('PRÉ',pre, 'pre', 'form_pre'),
                     ),
                     Padding(
                       padding: EdgeInsets.only(top: 20),
-                      child: botao('POS',pos, 'pos'),
+                      child: botao('POS',pos, 'pos', 'form_pos'),
                     ),
                   ],
                 ),
                 Row(
                   children: [
                     Expanded(
-                      child: Padding(padding: EdgeInsets.only(right: 16), child: campo('Aptas',aptas, false),),
+                      child: Padding(padding: EdgeInsets.only(right: 16), child: campo('Aptas',aptas, false, 'form_aptas'),),
                     ),
                     Expanded(
-                      child: campo('Pequenas',pequenas, false),
+                      child: campo('Pequenas',pequenas, false, 'form_pequenas'),
                     ),
                   ],
                 ),
                 Row(
                   children: [
                     Expanded(
-                      child: Padding(padding: EdgeInsets.only(right: 16), child: campo('Massas',massas, false),),
+                      child: Padding(padding: EdgeInsets.only(right: 16), child: campo('Massas',massas, false, 'form_massas'),),
                     ),
                     Expanded(
-                      child: campo('Crisalidas',crisalidas, false),
+                      child: campo('Crisalidas',crisalidas, false, 'form_crisalidas'),
                     ),
                   ],
                 ),
-                campo('Outros Parasitadas',outParasita, false),
+                campo('Outros Parasitadas',outParasita, false, 'form_outrosp'),
                 Row(
                   children: [
                     Expanded(
-                      child: Padding(padding: EdgeInsets.only(right: 16), child: campo('Qtd. Colaboradores',colaboradores, false),),
+                      child: Padding(padding: EdgeInsets.only(right: 16), child: campo('Qtd. Colaboradores',colaboradores, false, 'form_colab'),),
                     ),
                     Expanded(
-                      child: campo('Tempo/ Pessoa',tempo, false),
+                      child: campo('Tempo/ Pessoa',tempo, false, 'form_temp_pessoa'),
                     ),
                   ],
                 ),
@@ -132,7 +132,7 @@ class _FormularioState extends State<Formulario> {
     );
   }
 
-  campo(texto,variavelControle,icon) {
+  campo(texto,variavelControle,icon, chave) {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
       child: Column(
@@ -148,6 +148,7 @@ class _FormularioState extends State<Formulario> {
             ),
           ),
           TextField(
+            key: Key(chave),
             style: TextStyle(
               color: Theme.of(context).primaryColor,
               fontSize: 24,
@@ -193,10 +194,11 @@ class _FormularioState extends State<Formulario> {
     );
   }
 
-  botao(rotulo, valor, nome) {
+  botao(rotulo, valor, nome,chave) {
     return Container(
       margin: EdgeInsets.only(top: 15),
       child: ElevatedButton(
+        key: Key(chave),
         style: ElevatedButton.styleFrom(
           primary: valor == true ? Theme.of(context).primaryColor : Theme.of(context).backgroundColor,
           side: BorderSide(color: Theme.of(context).primaryColor)
@@ -227,7 +229,7 @@ class _FormularioState extends State<Formulario> {
             pre = false;
           }
           setState(() {
-            botao(rotulo, pre, nome);
+            botao(rotulo, pre, nome, chave);
           });
         },
         

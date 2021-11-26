@@ -1,3 +1,4 @@
+import 'package:desafio/forms/onboarding2.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 import 'package:desafio/forms/listagem.dart';
@@ -36,7 +37,8 @@ class Desafio extends StatelessWidget {
         'telaInicial': (context) => TelaInicial(),
         'formulario': (context) => OnbordingForm(),
         'telaLogin': (context) => TelaLogin(),
-        'listagem': (context) => Listagem()
+        //'listagem': (context) => Listagem(),
+        'onboardingTeste': (context) => OnbordingFormTest(),
       },
     );
   }

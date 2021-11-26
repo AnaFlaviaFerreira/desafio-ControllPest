@@ -108,8 +108,12 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
     Item('Auditoria', false, 'assets/images/auditoria.png')
   ];
 
+  var usuario;
+
   @override
   Widget build(BuildContext context) {
+    var usr = ModalRoute.of(context)!.settings.arguments.toString();
+    usuario = usr;
     return Scaffold(
       backgroundColor: Theme.of(context).backgroundColor,
       body: SingleChildScrollView(
@@ -141,13 +145,13 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
                       Divider(
                         color: Color.fromRGBO(219, 235, 200, 1),
                       ),
-                      text('Broca Populacional'),
-                      text('Broca RevLaboratorio'),
-                      text('Broca/Cigarrinha'),
-                      text('Broquinha - Control Quimico'),
-                      text('Cigarrinhas'),
-                      text('Contr. Quimico e Populacional'),
-                      text('Cupins'),
+                      text('Broca Populacional', 'broca_populacional'),
+                      text('Broca RevLaboratorio', 'broca_rev_laboratorio'),
+                      text('Broca/Cigarrinha', 'broca_cigarrinha'),
+                      text('Broquinha - Control Quimico', 'brocaquinha'),
+                      text('Cigarrinhas', 'cigarrinhas'),
+                      text('Contr. Quimico e Populacional', 'quimico_populacional'),
+                      text('Cupins', 'cupins'),
                     ],
                   ),
                 ),
@@ -170,7 +174,7 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
                         Divider(
                           color: Color.fromRGBO(219, 235, 200, 1),
                         ),
-                        text('Plantio Mecanizado'),
+                        text('Plantio Mecanizado', 'plantio_mecanizado'),
                       ],
                     )),
                 isExpanded: dados[1].estado,
@@ -182,7 +186,7 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
     );
   }
 
-  text(conteudo) {
+  text(conteudo, table) {
     return Container(
       child: TextButton(
         child: Text(
@@ -191,10 +195,11 @@ class _PainelExpansivoState extends State<PainelExpansivo> {
           textAlign: TextAlign.start,
         ),
         onPressed: () {
-          Navigator.pushNamed(
+          Navigator.push(
             context,
-            'listagem',
-            arguments: conteudo,
+            MaterialPageRoute(
+              builder: (context) => Listagem(tabela: table, titleAplication: conteudo, usuario: usuario,)
+            ),
           );
         },
       ),

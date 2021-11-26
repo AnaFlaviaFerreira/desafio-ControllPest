@@ -9,6 +9,8 @@ class TelaMapa extends StatefulWidget {
 }
 
 class _TelaMapaState extends State<TelaMapa> {
+  var latitude = TextEditingController();
+  var longitude = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,6 +84,7 @@ class _TelaMapaState extends State<TelaMapa> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   hoverColor: Colors.white),
+                              controller: latitude,
                             ),
                           ),
                         ],
@@ -131,6 +134,7 @@ class _TelaMapaState extends State<TelaMapa> {
                                   filled: true,
                                   fillColor: Colors.white,
                                   hoverColor: Colors.white),
+                              controller: longitude,
                             ),
                           ),
                         ],
