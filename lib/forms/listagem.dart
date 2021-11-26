@@ -31,21 +31,18 @@ class _ListagemState extends State<Listagem> {
   }
 
   Widget exibirItem(item) {
-    print(item);
     int amostra = item.data()['amostra'];
-    print(amostra);
+    String secao = item.data()['secao'];
+    String quadra = item.data()['quadra'];
+    String talhao = item.data()['talhao'];
     
     return ListTile(
       title: Row(
         children: [
-          Text(
-            'Amostra $amostra',
-            style: const TextStyle(fontSize: 16),
-          ),
-          Text(
-            'teste',
-            style: const TextStyle(fontSize: 16),
-          ),
+          textoLista('Amostra $amostra', 0.0, 0.0),
+          textoLista(secao, 40.0, 30.0),
+          textoLista(quadra, 0.0, 0.0),
+          textoLista(talhao, 30.0, 35.0),
         ],
       ),
       trailing: SizedBox(
@@ -149,7 +146,7 @@ class _ListagemState extends State<Listagem> {
               child: Row(
                 children: [
                   textoPadding('Amostra', 0.0, 0.0),
-                  textoPadding('Seção', 74.0, 30.0),
+                  textoPadding('Seção', 40.0, 30.0),
                   textoPadding('Quadra', 0.0, 0.0),
                   textoPadding('Talhão', 30.0, 35.0),
                 ],
@@ -244,15 +241,13 @@ class _ListagemState extends State<Listagem> {
     );
   }
 
-  textoLista(texto, double tamanho) {
-    return SizedBox(
-      width: tamanho,
+  textoLista(texto,pleft, pright) {
+    return Padding(
+      padding: EdgeInsets.only(right: pright, left: pleft),
       child: Text(
         texto,
         style: GoogleFonts.poppins(
-          fontSize: 14,
-          color: Colors.black,
-        ),
+          fontSize: 16),
       ),
     );
   }
@@ -333,4 +328,6 @@ class _ListagemState extends State<Listagem> {
           label: Text('')),
     );
   }
+
+
 }

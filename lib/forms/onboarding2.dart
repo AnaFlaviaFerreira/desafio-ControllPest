@@ -145,9 +145,9 @@ class _OnbordingFormTestState extends State<OnbordingFormTest> {
                             .add(
                               {
                                 'amostra': tamanhoTabela,
-                                'sesao':secao.text,
+                                'secao':secao.text,
                                 'quadra':quadra.text,
-                                'talao':talao.text,
+                                'talhao':talao.text,
                                 'level':level.text,
                                 'aptas':aptas.text,
                                 'pequenas':pequenas.text,
