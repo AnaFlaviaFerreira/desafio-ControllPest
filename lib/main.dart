@@ -1,10 +1,7 @@
 import 'package:desafio/forms/onboarding2.dart';
 import 'package:firebase_core/firebase_core.dart';
 
-
 import 'Login/TelaInicial/tela_login.dart';
-import 'forms/onboarding.dart';
-
 import 'package:flutter/material.dart';
 import 'Login/TelaInicial/tela_inicial.dart';
 import 'onboarding/onboarding_screen.dart';
@@ -34,10 +31,8 @@ class Desafio extends StatelessWidget {
       routes: {
         'onboarding': (context) => OnboardingScreen(),
         'telaInicial': (context) => TelaInicial(),
-        'formulario': (context) => OnbordingForm(),
         'telaLogin': (context) => TelaLogin(),
-        //'listagem': (context) => Listagem(),
-        'onboardingTeste': (context) => OnbordingFormTest(),
+        'onboardingFormulario': (context) => OnbordingFormulario(),
       },
     );
   }

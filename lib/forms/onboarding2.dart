@@ -3,14 +3,14 @@ import 'package:desafio/forms/tela_imagens.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class OnbordingFormTest extends StatefulWidget {
-  const OnbordingFormTest({Key? key}) : super(key: key);
+class OnbordingFormulario extends StatefulWidget {
+  const OnbordingFormulario({Key? key}) : super(key: key);
 
   @override
-  _OnbordingFormTestState createState() => _OnbordingFormTestState();
+  _OnbordingFormularioState createState() => _OnbordingFormularioState();
 }
 
-class _OnbordingFormTestState extends State<OnbordingFormTest> {
+class _OnbordingFormularioState extends State<OnbordingFormulario> {
   final PageController _pageController = PageController();
   int currentIndex = 0;
   var text = Text("Previous");

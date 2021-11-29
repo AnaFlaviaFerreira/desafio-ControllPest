@@ -49,14 +49,6 @@ class _ListagemState extends State<Listagem> {
       ),
       child: ListTile(
         title: Text('Amostra $amostra', style: GoogleFonts.poppins(fontSize: 16),),
-        // Row(
-        //   children: [
-        //     textoLista('$amostra', 0.0, 80.0),
-        //     textoLista(secao, 0.0, 50.0),
-        //     textoLista(quadra, 0.0, 0.0),
-        //     textoLista(talhao, 30.0, 40.0),
-        //   ],
-        // ),
         subtitle: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -106,7 +98,7 @@ class _ListagemState extends State<Listagem> {
           // Navigator.pushNamed(context, 'formulario', arguments: title);
           Navigator.pushNamed(
             context,
-            'onboardingTeste',
+            'onboardingFormulario',
             arguments: {
               'title': widget.titleAplication,
               'tabela': tabela,
@@ -161,17 +153,6 @@ class _ListagemState extends State<Listagem> {
                 ),
               ),
             ),
-            // Padding(
-            //   padding: EdgeInsets.symmetric(horizontal: 34, vertical: 5),
-            //   child: Row(
-            //     children: [
-            //       textoPadding('Amostra', 0.0, 0.0),
-            //       textoPadding('Seção', 20.0, 70.0),
-            //       textoPadding('Quadra', 0.0, 0.0),
-            //       textoPadding('Talhão', 30.0, 35.0),
-            //     ],
-            //   ),
-            // ),
             Expanded(
               child: listagem(),
             ),
