@@ -13,9 +13,9 @@ class Listagem extends StatefulWidget {
 }
 
 class _ListagemState extends State<Listagem> {
-  var psecao = TextEditingController();
-  var pquadra = TextEditingController();
-  var ptalao = TextEditingController();
+  var psecao;
+  var pquadra;
+  var ptalao;
   var pesquisa = TextEditingController();
   bool _isVisible = false;
   var visualizar = false;
@@ -133,17 +133,17 @@ class _ListagemState extends State<Listagem> {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Column(
                       children: [
-                        campo(null, 'Seção (fazenda)', psecao),
+                        comboForm('Seção (fazenda)',psecao, 'psecao'),
                         Row(
                           children: [
                             Expanded(
                               child: Padding(
                                 padding: EdgeInsets.only(right: 16),
-                                child: campo(null, 'Quadra (Gleba)', pquadra),
+                                child: comboForm('Quadra (Gleba)',pquadra, 'pquadra'),
                               ),
                             ),
                             Expanded(
-                              child: campo(null, 'Talhão', ptalao),
+                              child: comboForm('Talhão',ptalao, 'ptalao'),
                             ),
                           ],
                         ),
@@ -328,5 +328,70 @@ class _ListagemState extends State<Listagem> {
     );
   }
 
-
+  comboForm(texto,menu, chave) {
+    var lista;
+    if (chave == 'psecao') {
+      lista = [
+        DropdownMenuItem(child: Text('FAZENDA SÃO JOSÉ'), value: '1'),
+        DropdownMenuItem(child: Text('FAZENDA SÃO SIMÃO'), value: '2'),
+      ];
+    } else if (chave == 'pquadra') {
+      lista = [
+        DropdownMenuItem(child: Text('1'), value: '1'),
+        DropdownMenuItem(child: Text('2'), value: '2'),
+      ];
+    } else {
+      lista = [
+        DropdownMenuItem(child: Text('1'), value: '1'),
+        DropdownMenuItem(child: Text('2'), value: '2'),
+      ];
+    }
+    return Container(
+      padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Padding(
+            padding: EdgeInsets.fromLTRB(0, 6, 0, 6),
+            child: Text(
+              texto,
+              textAlign: TextAlign.end,
+              style:
+                  GoogleFonts.poppins(fontSize: 16, color: Theme.of(context).primaryColor),
+            ),
+          ),
+          Container(
+            decoration: BoxDecoration(
+              color: Colors.white,
+              border: Border.all(color: Theme.of(context).primaryColor),
+              borderRadius: BorderRadius.circular(5)
+            ),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8.0,0,8.0,0),
+              child: DropdownButton<String>(
+                key: Key(chave),
+                value: chave == 'psecao' ? psecao : (chave == 'pquadra' ? pquadra : ptalao),
+                isExpanded: true,
+                icon: Icon(Icons.keyboard_arrow_down_sharp, color: Theme.of(context).primaryColor,),
+                underline: SizedBox(),
+                onChanged: (String? newValue){
+                  setState(() {
+                    if (chave == 'psecao') {
+                      psecao = newValue.toString();
+                    } else if (chave == 'pquadra') {
+                      pquadra = newValue.toString();
+                    } else {
+                      ptalao = newValue.toString();
+                    }
+                    
+                  });
+                },
+                items: lista,
+              )
+            )
+          ),
+        ],
+      ),
+    );
+  }
 }
