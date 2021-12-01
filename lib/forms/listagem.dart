@@ -6,7 +6,12 @@ class Listagem extends StatefulWidget {
   final String tabela;
   final String titleAplication;
   final String usuario;
-  const Listagem({ Key? key, required this.tabela, required this.titleAplication, required this.usuario}) : super(key: key);
+  const Listagem(
+      {Key? key,
+      required this.tabela,
+      required this.titleAplication,
+      required this.usuario})
+      : super(key: key);
 
   @override
   _ListagemState createState() => _ListagemState();
@@ -41,32 +46,50 @@ class _ListagemState extends State<Listagem> {
     } else {
       secao = 'SÃO SIMÃO';
     }
-    
+
     return Card(
       shape: RoundedRectangleBorder(
         side: BorderSide(color: Theme.of(context).primaryColor, width: 1),
         borderRadius: BorderRadius.circular(5),
       ),
       child: ListTile(
-        title: Text('Amostra $amostra', style: GoogleFonts.poppins(fontSize: 16),),
-        subtitle: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text('Seção: $secao', style: GoogleFonts.poppins(fontSize: 14),),
-            Text('Quadra: $quadra           Talhão: $talhao', style: GoogleFonts.poppins(fontSize: 14),),
-          ]
+        title: Text(
+          'Amostra $amostra',
+          style: GoogleFonts.poppins(fontSize: 16),
         ),
+        subtitle:
+            Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          Text(
+            'Seção: $secao',
+            style: GoogleFonts.poppins(fontSize: 14),
+          ),
+          Text(
+            'Quadra: $quadra           Talhão: $talhao',
+            style: GoogleFonts.poppins(fontSize: 14),
+          ),
+        ]),
         trailing: SizedBox(
           width: 80,
           child: Row(
             children: [
-              IconButton(onPressed: (){
-                Navigator.pushNamed(context, 'formulario', arguments:  item.id);
-              }, icon: Icon(Icons.edit, color: Theme.of(context).primaryColor,)),
-              IconButton(onPressed: (){
-                //DELETAR UM DOCUMENTO
-                lista.doc(item.id).delete();
-              }, icon: Icon(Icons.delete, color: Theme.of(context).primaryColor,)),
+              IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, 'onboardingFormulario',
+                        arguments: item.id);
+                  },
+                  icon: Icon(
+                    Icons.edit,
+                    color: Theme.of(context).primaryColor,
+                  )),
+              IconButton(
+                  onPressed: () {
+                    //DELETAR UM DOCUMENTO
+                    lista.doc(item.id).delete();
+                  },
+                  icon: Icon(
+                    Icons.delete,
+                    color: Theme.of(context).primaryColor,
+                  )),
             ],
           ),
         ),
@@ -89,22 +112,20 @@ class _ListagemState extends State<Listagem> {
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.white,
           onPressed: () {
-            Navigator.pushNamed(context, 'telaInicial', arguments: widget.usuario);
+            Navigator.pushNamed(context, 'telaInicial',
+                arguments: widget.usuario);
           },
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           // Navigator.pushNamed(context, 'formulario', arguments: title);
-          Navigator.pushNamed(
-            context,
-            'onboardingFormulario',
-            arguments: {
-              'title': widget.titleAplication,
-              'tabela': tabela,
-              'usuario': widget.usuario,
-              'tamanho': tamanhoTabela
-            });
+          Navigator.pushNamed(context, 'onboardingFormulario', arguments: {
+            'title': widget.titleAplication,
+            'tabela': tabela,
+            'usuario': widget.usuario,
+            'tamanho': tamanhoTabela
+          });
         },
         child: Icon(
           Icons.add,
@@ -133,17 +154,18 @@ class _ListagemState extends State<Listagem> {
                     padding: EdgeInsets.symmetric(vertical: 10),
                     child: Column(
                       children: [
-                        comboForm('Seção (fazenda)',psecao, 'psecao'),
+                        comboForm('Seção (fazenda)', psecao, 'psecao'),
                         Row(
                           children: [
                             Expanded(
                               child: Padding(
                                 padding: EdgeInsets.only(right: 16),
-                                child: comboForm('Quadra (Gleba)',pquadra, 'pquadra'),
+                                child: comboForm(
+                                    'Quadra (Gleba)', pquadra, 'pquadra'),
                               ),
                             ),
                             Expanded(
-                              child: comboForm('Talhão',ptalao, 'ptalao'),
+                              child: comboForm('Talhão', ptalao, 'ptalao'),
                             ),
                           ],
                         ),
@@ -165,63 +187,63 @@ class _ListagemState extends State<Listagem> {
   listagem() {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 0),
-        child: StreamBuilder<QuerySnapshot>( //toda e qualquer opração no firestore, FutureBuilder - não monitora em tempo real
-          //fonte de dados (coleção)
-          stream: lista.snapshots(),
+      child: StreamBuilder<QuerySnapshot>(
+        //toda e qualquer opração no firestore, FutureBuilder - não monitora em tempo real
+        //fonte de dados (coleção)
+        stream: lista.snapshots(),
 
-          //exibir os dados recuperados
-          builder: (context, snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.none:
-                return const Center(
-                  child: Text('Não foi possível conectar ao Firestore'),
-                );
+        //exibir os dados recuperados
+        builder: (context, snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return const Center(
+                child: Text('Não foi possível conectar ao Firestore'),
+              );
 
-              case ConnectionState.waiting:
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
+            case ConnectionState.waiting:
+              return const Center(
+                child: CircularProgressIndicator(),
+              );
 
-              default:
-                final dados = snapshot.requireData;
-                tamanhoTabela = dados.size;
-                if (dados.size == 0) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          'assets/images/Logo cinza.png',
-                          fit: BoxFit.fitHeight,
-                          width: 100,
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.only(top: 30),
-                          child: Text(
-                            'Nenhuma amostra encontrada!',
-                            style: GoogleFonts.poppins(
+            default:
+              final dados = snapshot.requireData;
+              tamanhoTabela = dados.size;
+              if (dados.size == 0) {
+                return Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Image.asset(
+                        'assets/images/Logo cinza.png',
+                        fit: BoxFit.fitHeight,
+                        width: 100,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(top: 30),
+                        child: Text(
+                          'Nenhuma amostra encontrada!',
+                          style: GoogleFonts.poppins(
                               fontSize: 18,
                               color: Colors.grey.shade400,
-                              fontWeight: FontWeight.bold
-                            ),
-                            textAlign: TextAlign.center,
-                          ),
+                              fontWeight: FontWeight.bold),
+                          textAlign: TextAlign.center,
                         ),
-                      ],
-                    ),
-                  );
-                } else {
-                  return ListView.builder(
-                    itemCount: dados.size,
-                    itemBuilder: (context, index) {
-                      return exibirItem(dados.docs[index]);
-                    },
-                  );
-                }
-            }
-          },
-        ),
+                      ),
+                    ],
+                  ),
+                );
+              } else {
+                return ListView.builder(
+                  itemCount: dados.size,
+                  itemBuilder: (context, index) {
+                    return exibirItem(dados.docs[index]);
+                  },
+                );
+              }
+          }
+        },
+      ),
     );
   }
 
@@ -240,13 +262,12 @@ class _ListagemState extends State<Listagem> {
     );
   }
 
-  textoLista(texto,pleft, pright) {
+  textoLista(texto, pleft, pright) {
     return Padding(
       padding: EdgeInsets.only(right: pright, left: pleft),
       child: Text(
         texto,
-        style: GoogleFonts.poppins(
-          fontSize: 16),
+        style: GoogleFonts.poppins(fontSize: 16),
       ),
     );
   }
@@ -328,7 +349,7 @@ class _ListagemState extends State<Listagem> {
     );
   }
 
-  comboForm(texto,menu, chave) {
+  comboForm(texto, menu, chave) {
     var lista;
     if (chave == 'psecao') {
       lista = [
@@ -356,40 +377,41 @@ class _ListagemState extends State<Listagem> {
             child: Text(
               texto,
               textAlign: TextAlign.end,
-              style:
-                  GoogleFonts.poppins(fontSize: 16, color: Theme.of(context).primaryColor),
+              style: GoogleFonts.poppins(
+                  fontSize: 16, color: Theme.of(context).primaryColor),
             ),
           ),
           Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Theme.of(context).primaryColor),
-              borderRadius: BorderRadius.circular(5)
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8.0,0,8.0,0),
-              child: DropdownButton<String>(
-                key: Key(chave),
-                value: chave == 'psecao' ? psecao : (chave == 'pquadra' ? pquadra : ptalao),
-                isExpanded: true,
-                icon: Icon(Icons.keyboard_arrow_down_sharp, color: Theme.of(context).primaryColor,),
-                underline: SizedBox(),
-                onChanged: (String? newValue){
-                  setState(() {
-                    if (chave == 'psecao') {
-                      psecao = newValue.toString();
-                    } else if (chave == 'pquadra') {
-                      pquadra = newValue.toString();
-                    } else {
-                      ptalao = newValue.toString();
-                    }
-                    
-                  });
-                },
-                items: lista,
-              )
-            )
-          ),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Theme.of(context).primaryColor),
+                  borderRadius: BorderRadius.circular(5)),
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                  child: DropdownButton<String>(
+                    key: Key(chave),
+                    value: chave == 'psecao'
+                        ? psecao
+                        : (chave == 'pquadra' ? pquadra : ptalao),
+                    isExpanded: true,
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_sharp,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    underline: SizedBox(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        if (chave == 'psecao') {
+                          psecao = newValue.toString();
+                        } else if (chave == 'pquadra') {
+                          pquadra = newValue.toString();
+                        } else {
+                          ptalao = newValue.toString();
+                        }
+                      });
+                    },
+                    items: lista,
+                  ))),
         ],
       ),
     );

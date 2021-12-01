@@ -39,31 +39,70 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
   var tamanhoTabela;
   var selectedValue;
 
+  getDocumentById(id) async {
+    await FirebaseFirestore.instance
+        .collection('broca_populacional')
+        .doc(id)
+        .get()
+        .then((value) {
+      tamanhoTabela = value.get('amostra');
+      aptas.text = value.get('aptas');
+      colaboradores.text = value.get('colaboradores');
+      crisalidas.text = value.get('crisalidas');
+      level.text = value.get('level');
+      massas.text = value.get('massas');
+      outParasita.text = value.get('outParasita');
+      pequenas.text = value.get('pequenas');
+      pre = value.get('prePos');
+      pos = value.get('prePos');
+      quadra = value.get('quadra');
+      secao = value.get('secao');
+      talao = value.get('talhao');
+      tempo.text = value.get('tempo');
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     // var titleL = ModalRoute.of(context)!.settings.arguments.toString();
     var info = ModalRoute.of(context)!.settings.arguments as Map;
     tamanhoTabela = info['tamanho'] + 1;
+    var id = ModalRoute.of(context)?.settings.arguments;
+
+    if (info != null) {
+      if (aptas.text.isEmpty &&
+          colaboradores.text.isEmpty &&
+          crisalidas.text.isEmpty &&
+          level.text.isEmpty &&
+          massas.text.isEmpty &&
+          outParasita.text.isEmpty &&
+          pequenas.text.isEmpty &&
+          pre == true &&
+          pos == false &&
+          quadra == null &&
+          secao == null &&
+          talao == null &&
+          tempo.text.isEmpty &&
+          tamanhoTabela != null) {
+        getDocumentById(id);
+      }
+    }
 
     return Scaffold(
       appBar: AppBar(
         title: title,
         centerTitle: false,
-
         backgroundColor: Theme.of(context).primaryColor,
         actions: [],
-        leading : IconButton(
+        leading: IconButton(
           icon: Icon(Icons.arrow_back_ios),
           color: Colors.white,
           onPressed: () {
             Navigator.pop(context);
           },
         ),
-        
       ),
-
       backgroundColor: Theme.of(context).backgroundColor,
-
       body: Stack(
         alignment: Alignment.bottomCenter,
         children: [
@@ -123,56 +162,69 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                           if (currentIndex != 2) {
                             if (currentIndex == 0) {
                               var campos = validacaoCamposAmostra();
-                              
-                              if (campos == 'sucess') { bloquearCampo = false; }
-                              else { bloquearCampo = true; }
+
+                              if (campos == 'sucess') {
+                                bloquearCampo = false;
+                              } else {
+                                bloquearCampo = true;
+                              }
                             } else if (currentIndex == 1) {
                               var campos = validacaoCamposLocalizacao();
-                              
-                              if (campos == 'sucess') { bloquearCampo = false; }
-                              else { bloquearCampo = true; }
+
+                              if (campos == 'sucess') {
+                                bloquearCampo = false;
+                              } else {
+                                bloquearCampo = true;
+                              }
                             }
                             if (bloquearCampo == false) {
                               _pageController.nextPage(
-                              duration: _kDuration, curve: _kCurve);
-                              if (currentIndex == 0) { title = Text('Localização');}
-                              else { title = Text('Imagens'); }
-                            }
-                          }
-                          else {
-                            var erro = '';
-                            FirebaseFirestore.instance.collection(info['tabela'])
-                            .add(
-                              {
-                                'amostra': tamanhoTabela,
-                                'secao':secao,
-                                'quadra':quadra,
-                                'talhao':talao,
-                                'level':level.text,
-                                'aptas':aptas.text,
-                                'pequenas':pequenas.text,
-                                'massas':massas.text,
-                                'crisalidas': crisalidas.text,
-                                'outParasita':outParasita.text,
-                                'colaboradores': colaboradores.text,
-                                'tempo':tempo.text,
-                                'prePos': pre == true ? 'pre' : 'pos'
+                                  duration: _kDuration, curve: _kCurve);
+                              if (currentIndex == 0) {
+                                title = Text('Localização');
+                              } else {
+                                title = Text('Imagens');
                               }
-                            ).catchError((erro) {
+                            }
+                          } else if (info == null) {
+                            var erro = '';
+                            FirebaseFirestore.instance
+                                .collection(info['tabela'])
+                                .add({
+                              'amostra': tamanhoTabela,
+                              'secao': secao,
+                              'quadra': quadra,
+                              'talhao': talao,
+                              'level': level.text,
+                              'aptas': aptas.text,
+                              'pequenas': pequenas.text,
+                              'massas': massas.text,
+                              'crisalidas': crisalidas.text,
+                              'outParasita': outParasita.text,
+                              'colaboradores': colaboradores.text,
+                              'tempo': tempo.text,
+                              'prePos': pre == true ? 'pre' : 'pos'
+                            }).catchError((erro) {
                               erro = erro.toString();
                             });
-                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
                               content: Row(
                                 children: [
                                   Icon(
-                                    erro == '' ? Icons.check_circle_outline : Icons.dangerous_outlined,
-                                    color: erro == '' ? Theme.of(context).primaryColorLight : Colors.red,
+                                    erro == ''
+                                        ? Icons.check_circle_outline
+                                        : Icons.dangerous_outlined,
+                                    color: erro == ''
+                                        ? Theme.of(context).primaryColorLight
+                                        : Colors.red,
                                   ),
                                   Padding(padding: EdgeInsets.only(left: 15)),
                                   Text(
-                                    erro == '' ? 'Amostra $tamanhoTabela adicionada com sucesso!' : erro,
-                                    style: GoogleFonts.poppins(color: Colors.white)
-                                  ),
+                                      erro == ''
+                                          ? 'Amostra $tamanhoTabela adicionada com sucesso!'
+                                          : erro,
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.white)),
                                 ],
                               ),
                               duration: const Duration(
@@ -180,10 +232,58 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                               ),
                               backgroundColor: Colors.black,
                             ));
-                            
+
+                            Navigator.pop(context);
+                          } else {
+                            var erro = '';
+                            FirebaseFirestore.instance
+                                .collection(info['tabela'])
+                                .doc(id.toString())
+                                .set({
+                              'amostra': tamanhoTabela,
+                              'secao': secao,
+                              'quadra': quadra,
+                              'talhao': talao,
+                              'level': level.text,
+                              'aptas': aptas.text,
+                              'pequenas': pequenas.text,
+                              'massas': massas.text,
+                              'crisalidas': crisalidas.text,
+                              'outParasita': outParasita.text,
+                              'colaboradores': colaboradores.text,
+                              'tempo': tempo.text,
+                              'prePos': pre == true ? 'pre' : 'pos'
+                            }).catchError((erro) {
+                              erro = erro.toString();
+                            });
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Row(
+                                children: [
+                                  Icon(
+                                    erro == ''
+                                        ? Icons.check_circle_outline
+                                        : Icons.dangerous_outlined,
+                                    color: erro == ''
+                                        ? Theme.of(context).primaryColorLight
+                                        : Colors.red,
+                                  ),
+                                  Padding(padding: EdgeInsets.only(left: 15)),
+                                  Text(
+                                      erro == ''
+                                          ? 'Amostra $tamanhoTabela adicionada com sucesso!'
+                                          : erro,
+                                      style: GoogleFonts.poppins(
+                                          color: Colors.white)),
+                                ],
+                              ),
+                              duration: const Duration(
+                                seconds: 2,
+                              ),
+                              backgroundColor: Colors.black,
+                            ));
+
                             Navigator.pop(context);
                           }
-                           
                         },
                         child: texto(
                             false,
@@ -249,26 +349,25 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
       ),
     );
   }
-  
+
   textoForm(texto, negrito) {
     return Container(
       child: Padding(
         padding: EdgeInsets.fromLTRB(0, 10, 0, 0),
         child: Text(
           texto,
-          style: 
-            GoogleFonts.poppins(
+          style: GoogleFonts.poppins(
               fontSize: 18,
               color: Theme.of(context).primaryColor,
-              fontWeight: negrito == true ? FontWeight.bold : FontWeight.normal 
-            ),
+              fontWeight:
+                  negrito == true ? FontWeight.bold : FontWeight.normal),
           textAlign: TextAlign.center,
         ),
       ),
     );
   }
 
-  campoForm(texto,variavelControle,icon, chave) {
+  campoForm(texto, variavelControle, icon, chave) {
     return Container(
       padding: EdgeInsets.fromLTRB(0, 8, 0, 8),
       child: Column(
@@ -279,8 +378,8 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
             child: Text(
               texto,
               textAlign: TextAlign.end,
-              style:
-                  GoogleFonts.poppins(fontSize: 16, color: Theme.of(context).primaryColor),
+              style: GoogleFonts.poppins(
+                  fontSize: 16, color: Theme.of(context).primaryColor),
             ),
           ),
           TextField(
@@ -290,21 +389,22 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
               fontSize: 24,
             ),
             cursorColor: Theme.of(context).secondaryHeaderColor,
-
             decoration: InputDecoration(
-              enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).primaryColor, width: 1.0)
-              ),
-              suffixIcon: icon == true ? Icon(Icons.keyboard_arrow_down, color: Theme.of(context).primaryColor) : null,
-              
-              focusedBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Theme.of(context).secondaryHeaderColor, width: 1.0)
-              ),
-              contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
-              filled: true,
-              fillColor: Colors.white,
-              hoverColor: Colors.white
-            ),
+                enabledBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Theme.of(context).primaryColor, width: 1.0)),
+                suffixIcon: icon == true
+                    ? Icon(Icons.keyboard_arrow_down,
+                        color: Theme.of(context).primaryColor)
+                    : null,
+                focusedBorder: OutlineInputBorder(
+                    borderSide: BorderSide(
+                        color: Theme.of(context).secondaryHeaderColor,
+                        width: 1.0)),
+                contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
+                filled: true,
+                fillColor: Colors.white,
+                hoverColor: Colors.white),
             controller: variavelControle,
           ),
         ],
@@ -312,15 +412,16 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
     );
   }
 
-  botaoForm(rotulo, valor, nome,chave) {
+  botaoForm(rotulo, valor, nome, chave) {
     return Container(
       margin: EdgeInsets.only(top: 15),
       child: ElevatedButton(
         key: Key(chave),
         style: ElevatedButton.styleFrom(
-          primary: valor == true ? Theme.of(context).primaryColor : Theme.of(context).backgroundColor,
-          side: BorderSide(color: Theme.of(context).primaryColor)
-        ),
+            primary: valor == true
+                ? Theme.of(context).primaryColor
+                : Theme.of(context).backgroundColor,
+            side: BorderSide(color: Theme.of(context).primaryColor)),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -328,15 +429,15 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
               padding: EdgeInsets.symmetric(vertical: 12, horizontal: 19.5),
               child: Text(
                 rotulo,
-                style:
-                  GoogleFonts.poppins(
-                    fontSize: 16,
-                    color: valor == true ? Colors.white : Theme.of(context).primaryColor,
-                  ),
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  color: valor == true
+                      ? Colors.white
+                      : Theme.of(context).primaryColor,
+                ),
               ),
             ),
           ],
-
         ),
         onPressed: () {
           if (nome == 'pre') {
@@ -350,12 +451,11 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
             botaoForm(rotulo, pre, nome, chave);
           });
         },
-        
       ),
     );
   }
 
-  comboForm(texto,menu, chave) {
+  comboForm(texto, menu, chave) {
     var lista;
     if (chave == 'form_secao') {
       lista = [
@@ -383,171 +483,200 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
             child: Text(
               texto,
               textAlign: TextAlign.end,
-              style:
-                  GoogleFonts.poppins(fontSize: 16, color: Theme.of(context).primaryColor),
+              style: GoogleFonts.poppins(
+                  fontSize: 16, color: Theme.of(context).primaryColor),
             ),
           ),
           Container(
-            decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: Theme.of(context).primaryColor),
-              borderRadius: BorderRadius.circular(5)
-            ),
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(8.0,0,8.0,0),
-              child: DropdownButton<String>(
-                key: Key(chave),
-                value: chave == 'form_secao' ? secao : (chave == 'form_quadra' ? quadra : talao),
-                isExpanded: true,
-                icon: Icon(Icons.keyboard_arrow_down_sharp, color: Theme.of(context).primaryColor,),
-                underline: SizedBox(),
-                onChanged: (String? newValue){
-                  setState(() {
-                    if (chave == 'form_secao') {
-                      secao = newValue.toString();
-                    } else if (chave == 'form_quadra') {
-                      quadra = newValue.toString();
-                    } else {
-                      talao = newValue.toString();
-                    }
-                    
-                  });
-                },
-                items: lista,
-              )
-            )
-          ),
+              decoration: BoxDecoration(
+                  color: Colors.white,
+                  border: Border.all(color: Theme.of(context).primaryColor),
+                  borderRadius: BorderRadius.circular(5)),
+              child: Padding(
+                  padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+                  child: DropdownButton<String>(
+                    key: Key(chave),
+                    value: chave == 'form_secao'
+                        ? secao
+                        : (chave == 'form_quadra' ? quadra : talao),
+                    isExpanded: true,
+                    icon: Icon(
+                      Icons.keyboard_arrow_down_sharp,
+                      color: Theme.of(context).primaryColor,
+                    ),
+                    underline: SizedBox(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        if (chave == 'form_secao') {
+                          secao = newValue.toString();
+                        } else if (chave == 'form_quadra') {
+                          quadra = newValue.toString();
+                        } else {
+                          talao = newValue.toString();
+                        }
+                      });
+                    },
+                    items: lista,
+                  ))),
         ],
       ),
     );
   }
 
-  Widget formulario(){
+  Widget formulario() {
     title = Text('Adicionar Amostra');
     return Container(
-      padding: EdgeInsets.fromLTRB(40, 10, 40, 70),
-      child: SingleChildScrollView(
-        child: Form(
-          key: formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              textoForm('Amostra $tamanhoTabela', true),
-              Divider(
-                color: Theme.of(context).primaryColor,
-                indent: 125,
-                endIndent: 125,
-                thickness: 2,
-              ),
-              Divider(
-                color: Color.fromRGBO(219, 235, 200, 1),
-              ),
-              comboForm('Seção (fazenda)', secao,'form_secao'),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(padding: EdgeInsets.only(right: 16), child: comboForm('Quadra (Gleba)',quadra, 'form_quadra'),),
-                  ),
-                  Expanded(
-                    child: comboForm('Talhão', talao,'form_talhao'),
-                  ),
-                ],
-              ),
-              Divider(
-                color: Color.fromRGBO(219, 235, 200, 1),
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: campoForm('Nro. Lev.', level, false, 'form_level'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.fromLTRB(16, 20, 10, 0),
-                    child: botaoForm('PRÉ',pre, 'pre', 'form_pre'),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(top: 20),
-                    child: botaoForm('POS',pos, 'pos', 'form_pos'),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(padding: EdgeInsets.only(right: 16), child: campoForm('Aptas',aptas, false, 'form_aptas'),),
-                  ),
-                  Expanded(
-                    child: campoForm('Pequenas',pequenas, false, 'form_pequenas'),
-                  ),
-                ],
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(padding: EdgeInsets.only(right: 16), child: campoForm('Massas',massas, false, 'form_massas'),),
-                  ),
-                  Expanded(
-                    child: campoForm('Crisalidas',crisalidas, false, 'form_crisalidas'),
-                  ),
-                ],
-              ),
-              campoForm('Outros Parasitadas',outParasita, false, 'form_outrosp'),
-              Row(
-                children: [
-                  Expanded(
-                    child: Padding(padding: EdgeInsets.only(right: 16), child: campoForm('Qtd. Colaboradores',colaboradores, false, 'form_colab'),),
-                  ),
-                  Expanded(
-                    child: campoForm('Tempo/ Pessoa',tempo, false, 'form_temp_pessoa'),
-                  ),
-                ],
-              ),
-            ],
+        padding: EdgeInsets.fromLTRB(40, 10, 40, 70),
+        child: SingleChildScrollView(
+          child: Form(
+            key: formKey,
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                textoForm('Amostra $tamanhoTabela', true),
+                Divider(
+                  color: Theme.of(context).primaryColor,
+                  indent: 125,
+                  endIndent: 125,
+                  thickness: 2,
+                ),
+                Divider(
+                  color: Color.fromRGBO(219, 235, 200, 1),
+                ),
+                comboForm('Seção (fazenda)', secao, 'form_secao'),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 16),
+                        child:
+                            comboForm('Quadra (Gleba)', quadra, 'form_quadra'),
+                      ),
+                    ),
+                    Expanded(
+                      child: comboForm('Talhão', talao, 'form_talhao'),
+                    ),
+                  ],
+                ),
+                Divider(
+                  color: Color.fromRGBO(219, 235, 200, 1),
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: campoForm('Nro. Lev.', level, false, 'form_level'),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.fromLTRB(16, 20, 10, 0),
+                      child: botaoForm('PRÉ', pre, 'pre', 'form_pre'),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(top: 20),
+                      child: botaoForm('POS', pos, 'pos', 'form_pos'),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 16),
+                        child: campoForm('Aptas', aptas, false, 'form_aptas'),
+                      ),
+                    ),
+                    Expanded(
+                      child: campoForm(
+                          'Pequenas', pequenas, false, 'form_pequenas'),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 16),
+                        child:
+                            campoForm('Massas', massas, false, 'form_massas'),
+                      ),
+                    ),
+                    Expanded(
+                      child: campoForm(
+                          'Crisalidas', crisalidas, false, 'form_crisalidas'),
+                    ),
+                  ],
+                ),
+                campoForm(
+                    'Outros Parasitadas', outParasita, false, 'form_outrosp'),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 16),
+                        child: campoForm('Qtd. Colaboradores', colaboradores,
+                            false, 'form_colab'),
+                      ),
+                    ),
+                    Expanded(
+                      child: campoForm(
+                          'Tempo/ Pessoa', tempo, false, 'form_temp_pessoa'),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
-        ),
-      )
-    );
+        ));
   }
 
   mensagem(msg) {
     return ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Row(
-            children: [
-              Icon(
-                Icons.report_problem_outlined,
-                color: Colors.amber,
-              ),
-              Padding(padding: EdgeInsets.only(left: 15)),
-              Text(
-                msg,
-                style: GoogleFonts.poppins(color: Colors.white)
-              ),
-            ],
-          ),
-          duration: const Duration(
-            seconds: 2,
-          ),
-          backgroundColor: Colors.black,
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              Icons.report_problem_outlined,
+              color: Colors.amber,
+            ),
+            Padding(padding: EdgeInsets.only(left: 15)),
+            Text(msg, style: GoogleFonts.poppins(color: Colors.white)),
+          ],
         ),
-      );
+        duration: const Duration(
+          seconds: 2,
+        ),
+        backgroundColor: Colors.black,
+      ),
+    );
   }
 
   validacaoCamposAmostra() {
-    if (secao == null) { mensagem('Preencha o campo Seção (fazenda)'); }
-    else if (quadra == null) { mensagem('Preencha o campo Quadra (Gleba)'); }
-    else if (talao == null) { mensagem('Preencha o campo Talhão'); }
-    else if (level.text.isEmpty) { mensagem('Preencha o campo Nro. Lev'); }
-    else if (aptas.text.isEmpty) { mensagem('Preencha o campo Aptas'); }
-    else if (pequenas.text.isEmpty) { mensagem('Preencha o campo Pequenas'); }
-    else if (massas.text.isEmpty) { mensagem('Preencha o campo Massas'); }
-    else if (crisalidas.text.isEmpty) { mensagem('Preencha o campo Cristalidas'); }
-    else if (outParasita.text.isEmpty) { mensagem('Preencha o campo Outros Parasitas'); }
-    else if (colaboradores.text.isEmpty) { mensagem('Preencha o campo Qtd. Colaboradores'); }
-    else if (tempo.text.isEmpty) { mensagem('Preencha o campo Tempo/Pessoa'); }
-    else { return 'sucess'; }
+    if (secao == null) {
+      mensagem('Preencha o campo Seção (fazenda)');
+    } else if (quadra == null) {
+      mensagem('Preencha o campo Quadra (Gleba)');
+    } else if (talao == null) {
+      mensagem('Preencha o campo Talhão');
+    } else if (level.text.isEmpty) {
+      mensagem('Preencha o campo Nro. Lev');
+    } else if (aptas.text.isEmpty) {
+      mensagem('Preencha o campo Aptas');
+    } else if (pequenas.text.isEmpty) {
+      mensagem('Preencha o campo Pequenas');
+    } else if (massas.text.isEmpty) {
+      mensagem('Preencha o campo Massas');
+    } else if (crisalidas.text.isEmpty) {
+      mensagem('Preencha o campo Cristalidas');
+    } else if (outParasita.text.isEmpty) {
+      mensagem('Preencha o campo Outros Parasitas');
+    } else if (colaboradores.text.isEmpty) {
+      mensagem('Preencha o campo Qtd. Colaboradores');
+    } else if (tempo.text.isEmpty) {
+      mensagem('Preencha o campo Tempo/Pessoa');
+    } else {
+      return 'sucess';
+    }
   }
-  
+
   Widget localizacao() {
     return Container(
       padding: EdgeInsets.all(10),
@@ -588,8 +717,7 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                             color: Theme.of(context).primaryColor,
                             fontSize: 24,
                           ),
-                          cursorColor:
-                              Theme.of(context).secondaryHeaderColor,
+                          cursorColor: Theme.of(context).secondaryHeaderColor,
                           decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -600,8 +728,7 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                                       color: Theme.of(context)
                                           .secondaryHeaderColor,
                                       width: 1.0)),
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                               filled: true,
                               fillColor: Colors.white,
                               hoverColor: Colors.white),
@@ -638,8 +765,7 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                             color: Theme.of(context).primaryColor,
                             fontSize: 24,
                           ),
-                          cursorColor:
-                              Theme.of(context).secondaryHeaderColor,
+                          cursorColor: Theme.of(context).secondaryHeaderColor,
                           decoration: InputDecoration(
                               enabledBorder: OutlineInputBorder(
                                   borderSide: BorderSide(
@@ -650,8 +776,7 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                                       color: Theme.of(context)
                                           .secondaryHeaderColor,
                                       width: 1.0)),
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(10, 0, 10, 0),
+                              contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                               filled: true,
                               fillColor: Colors.white,
                               hoverColor: Colors.white),
@@ -670,8 +795,12 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
   }
 
   validacaoCamposLocalizacao() {
-    if (latitude.text.isEmpty) { mensagem('Preencha o campo Latitude'); }
-    else if (longitude.text.isEmpty) { mensagem('Preencha o campo Longitude'); }
-    else { return 'sucess'; }
+    if (latitude.text.isEmpty) {
+      mensagem('Preencha o campo Latitude');
+    } else if (longitude.text.isEmpty) {
+      mensagem('Preencha o campo Longitude');
+    } else {
+      return 'sucess';
+    }
   }
 }
