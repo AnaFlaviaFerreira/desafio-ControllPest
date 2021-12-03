@@ -1,3 +1,4 @@
+import 'package:desafio/Login/TelaInicial/tela_criar.dart';
 import 'package:desafio/forms/onboarding2.dart';
 import 'package:firebase_core/firebase_core.dart';
 
@@ -33,6 +34,7 @@ class Desafio extends StatelessWidget {
         'telaInicial': (context) => TelaInicial(),
         'telaLogin': (context) => TelaLogin(),
         'onboardingFormulario': (context) => OnbordingFormulario(),
+        'criarConta': (context) => CriarConta(),
       },
     );
   }

@@ -16,6 +16,14 @@ class _TelaLoginState extends State<TelaLogin> {
   var txtSenha = TextEditingController();
   bool isLoading = false;
   var form = GlobalKey<FormState>();
+  var _visivel;
+  var _show;
+
+  @override
+  void initState() {
+    _visivel = false;
+    _show = true;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -36,7 +44,7 @@ class _TelaLoginState extends State<TelaLogin> {
               ),
               Container(
                 alignment: Alignment.center,
-                margin: EdgeInsets.only(bottom: 230),
+                margin: EdgeInsets.only(bottom: 300),
                 child: Image.asset(
                   "assets/images/icone.png",
                 ),
@@ -116,7 +124,7 @@ class _TelaLoginState extends State<TelaLogin> {
                       TextField(
                         key: Key('senha'),
                         controller: txtSenha,
-                        obscureText: true,
+                        obscureText: _show,
                         style: TextStyle(
                           color: Theme.of(context).primaryColor,
                           fontSize: 15,
@@ -134,8 +142,16 @@ class _TelaLoginState extends State<TelaLogin> {
                                   width: 1.0)),
                           contentPadding: EdgeInsets.fromLTRB(10, 0, 10, 0),
                           hintText: 'Digite sua senha',
-                          suffixIcon: Icon(Icons.visibility_off,
-                              color: Theme.of(context).primaryColor),
+                          suffixIcon: IconButton(
+                          onPressed: () {
+                            setState(() {
+                              _visivel = !_visivel;
+                              _show = !_visivel;
+                            });
+                          },
+                          
+                          icon: Icon(_visivel == false ? Icons.visibility_off : Icons.visibility),
+                          color: Theme.of(context).primaryColor),
                         ),
                       ),
                       SizedBox(
@@ -160,7 +176,27 @@ class _TelaLoginState extends State<TelaLogin> {
                           },
                           child: Text('Entrar'),
                         ),
-                      )
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Container(
+                        width: 200,
+                        child: OutlinedButton(
+                          key: Key('criar'),
+                          style: OutlinedButton.styleFrom(
+                            shape: RoundedRectangleBorder(
+                                side: BorderSide(style: BorderStyle.solid),
+                                borderRadius: BorderRadius.circular(50)),
+                            backgroundColor: Colors.lightGreen.shade800,
+                            primary: Colors.white,
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, 'criarConta');
+                          },
+                          child: Text('Criar Conta'),
+                        ),
+                      ),
                     ],
                   ),
                 ),
