@@ -31,6 +31,7 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
   var tempo = TextEditingController();
   var pre = true;
   var pos = false;
+  var prePos;
   var title = Text('Adicionar Amostra');
   var formKey = GlobalKey<FormState>();
   var bloquearCampo = false;
@@ -39,8 +40,8 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
   var tamanhoTabela;
   var selectedValue;
 
-  getDocumentById(id) async {
-    await FirebaseFirestore.instance
+  getDocumentById(id) {
+     FirebaseFirestore.instance
         .collection('broca_populacional')
         .doc(id)
         .get()
@@ -53,23 +54,21 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
       massas.text = value.get('massas');
       outParasita.text = value.get('outParasita');
       pequenas.text = value.get('pequenas');
-      pre = value.get('prePos');
-      pos = value.get('prePos');
-      quadra = value.get('quadra');
-      secao = value.get('secao');
-      talao = value.get('talhao');
       tempo.text = value.get('tempo');
+      latitude.text = value.get('latitude');
+      longitude.text = value.get('longitude');
     });
+          
   }
 
   @override
   Widget build(BuildContext context) {
     // var titleL = ModalRoute.of(context)!.settings.arguments.toString();
     var info = ModalRoute.of(context)!.settings.arguments as Map;
-    tamanhoTabela = info['tamanho'] + 1;
-    var id = ModalRoute.of(context)?.settings.arguments;
+    var id = info['id'];
+    tamanhoTabela = id != '' ? info['tamanho'] : info['tamanho'] + 1;
 
-    if (info != null) {
+    if (id != '') {
       if (aptas.text.isEmpty &&
           colaboradores.text.isEmpty &&
           crisalidas.text.isEmpty &&
@@ -84,7 +83,12 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
           talao == null &&
           tempo.text.isEmpty &&
           tamanhoTabela != null) {
-        getDocumentById(id);
+          getDocumentById(id);
+          pre = info['prePos'] == 'pre'? true : false;
+          pos = info['prePos'] == 'pos' ? true : false;
+          secao = info['secao'].toString();
+          quadra = info['quadra'].toString();
+          talao = info['talhao'].toString();
       }
     }
 
@@ -186,7 +190,7 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                                 title = Text('Imagens');
                               }
                             }
-                          } else if (info == null) {
+                          } else if (id == '') {
                             var erro = '';
                             FirebaseFirestore.instance
                                 .collection(info['tabela'])
@@ -203,7 +207,9 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                               'outParasita': outParasita.text,
                               'colaboradores': colaboradores.text,
                               'tempo': tempo.text,
-                              'prePos': pre == true ? 'pre' : 'pos'
+                              'prePos': pre == true ? 'pre' : 'pos',
+                              'latitude': latitude.text,
+                              'longitude':longitude.text
                             }).catchError((erro) {
                               erro = erro.toString();
                             });
@@ -252,7 +258,9 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                               'outParasita': outParasita.text,
                               'colaboradores': colaboradores.text,
                               'tempo': tempo.text,
-                              'prePos': pre == true ? 'pre' : 'pos'
+                              'prePos': pre == true ? 'pre' : 'pos',
+                              'latitude': latitude.text,
+                              'longitude': longitude.text
                             }).catchError((erro) {
                               erro = erro.toString();
                             });
@@ -270,7 +278,7 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                                   Padding(padding: EdgeInsets.only(left: 15)),
                                   Text(
                                       erro == ''
-                                          ? 'Amostra $tamanhoTabela adicionada com sucesso!'
+                                          ? 'Amostra $tamanhoTabela alterada com sucesso!'
                                           : erro,
                                       style: GoogleFonts.poppins(
                                           color: Colors.white)),

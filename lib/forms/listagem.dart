@@ -75,7 +75,18 @@ class _ListagemState extends State<Listagem> {
               IconButton(
                   onPressed: () {
                     Navigator.pushNamed(context, 'onboardingFormulario',
-                        arguments: item.id);
+                    arguments: {
+                      'title': widget.titleAplication,
+                      'tabela': tabela,
+                      'usuario': widget.usuario,
+                      'tamanho': amostra,
+                      'id':item.id,
+                      'prePos': item.data()['prePos'],
+                      'secao':item.data()['secao'],
+                      'quadra':item.data()['quadra'],
+                      'talhao':item.data()['talhao']
+                    }
+                    );
                   },
                   icon: Icon(
                     Icons.edit,
@@ -124,7 +135,8 @@ class _ListagemState extends State<Listagem> {
             'title': widget.titleAplication,
             'tabela': tabela,
             'usuario': widget.usuario,
-            'tamanho': tamanhoTabela
+            'tamanho': tamanhoTabela,
+            'id': ''
           });
         },
         child: Icon(
@@ -382,36 +394,38 @@ class _ListagemState extends State<Listagem> {
             ),
           ),
           Container(
-              decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(color: Theme.of(context).primaryColor),
-                  borderRadius: BorderRadius.circular(5)),
-              child: Padding(
-                  padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
-                  child: DropdownButton<String>(
-                    key: Key(chave),
-                    value: chave == 'psecao'
-                        ? psecao
-                        : (chave == 'pquadra' ? pquadra : ptalao),
-                    isExpanded: true,
-                    icon: Icon(
-                      Icons.keyboard_arrow_down_sharp,
-                      color: Theme.of(context).primaryColor,
-                    ),
-                    underline: SizedBox(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        if (chave == 'psecao') {
-                          psecao = newValue.toString();
-                        } else if (chave == 'pquadra') {
-                          pquadra = newValue.toString();
-                        } else {
-                          ptalao = newValue.toString();
-                        }
-                      });
-                    },
-                    items: lista,
-                  ))),
+            decoration: BoxDecoration(
+                color: Colors.white,
+                border: Border.all(color: Theme.of(context).primaryColor),
+                borderRadius: BorderRadius.circular(5)),
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(8.0, 0, 8.0, 0),
+              child: DropdownButton<String>(
+                key: Key(chave),
+                value: chave == 'psecao'
+                    ? psecao
+                    : (chave == 'pquadra' ? pquadra : ptalao),
+                isExpanded: true,
+                icon: Icon(
+                  Icons.keyboard_arrow_down_sharp,
+                  color: Theme.of(context).primaryColor,
+                ),
+                underline: SizedBox(),
+                onChanged: (String? newValue) {
+                  setState(() {
+                    if (chave == 'psecao') {
+                      psecao = newValue.toString();
+                    } else if (chave == 'pquadra') {
+                      pquadra = newValue.toString();
+                    } else {
+                      ptalao = newValue.toString();
+                    }
+                  });
+                },
+                items: lista,
+              )
+            )
+          ),
         ],
       ),
     );
