@@ -16,6 +16,7 @@ class _CriarContaState extends State<CriarConta> {
   var _show;
 
   @override
+  // ignore: must_call_super
   void initState() {
     _visivel = false;
     _show = true;
