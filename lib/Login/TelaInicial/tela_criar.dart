@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -130,7 +131,13 @@ class _CriarContaState extends State<CriarConta> {
                       primary: Colors.white,
                     ),
                     onPressed: () {
-                      // criarConta(txtEmail.text, txtSenha.text);
+                      if (txtEmail.text.isEmpty) {
+                        mensagem('Preencha o campo E-mail', 'vazio');
+                      } else if (txtSenha.text.isEmpty) {
+                        mensagem('Preencha o campo Senha', 'vazio');
+                      } else {
+                        criarConta(txtEmail.text, txtSenha.text);
+                      }
                     },
                   ),
                 ),
@@ -160,5 +167,47 @@ class _CriarContaState extends State<CriarConta> {
         ),
       ),
     );
+  }
+
+  mensagem(msg, tipo) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          children: [
+            Icon(
+              tipo == 'vazio' ? Icons.report_problem_outlined : (tipo == 'erro' ? Icons.dangerous_outlined : Icons.check_circle_outline),
+              color: tipo == 'vazio' ? Colors.amber : (tipo == 'erro' ? Colors.red : Theme.of(context).primaryColorLight),
+            ),
+            Padding(padding: EdgeInsets.only(left: 15)),
+            Text(msg, style: GoogleFonts.poppins(color: Colors.white)),
+          ],
+        ),
+        duration: const Duration(
+          seconds: 2,
+        ),
+        backgroundColor: Colors.black,
+      ),
+    );
+  }
+
+  void criarConta(email, senha) {
+    
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: email,
+      password: senha,
+    ).then((value) {
+      mensagem('Usuário criado com sucesso!', 'sucesso');
+      Navigator.pop(context);
+    }).catchError((erro) {
+      var msg = '';
+      if (erro.code == 'email-already-in-use') {
+        msg = 'Erro: email informado já está em uso';
+      } else {
+        msg = 'Erro: ${erro.message}';
+      }
+      mensagem(msg, 'erro');
+    });
+
   }
 }
