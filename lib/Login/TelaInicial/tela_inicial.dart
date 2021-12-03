@@ -1,4 +1,5 @@
 import 'package:desafio/forms/listagem.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -76,11 +77,37 @@ class _ApresentacaoUsuarioState extends State<ApresentacaoUsuario> {
                 color: Colors.grey.shade900,
               ),
             ),
-            Icon(
-              Icons.account_circle,
-              size: 50,
-              color: Colors.green.shade400,
-            ),
+            DropdownButton(
+              elevation: 0,
+              value: 1,
+              isExpanded: false,
+              onChanged: (value) async {
+                if (value == 2) {
+                  FirebaseAuth.instance.signOut();
+                  Navigator.pushReplacementNamed(context, 'telaLogin');
+                }
+              },
+              icon: SizedBox.shrink(),
+              underline: SizedBox.shrink(),
+              items: [
+                DropdownMenuItem(
+                  child: Icon(
+                    Icons.account_circle,
+                    size: 50,
+                    color: Colors.green.shade400,
+                  ),
+                  value: 1,
+                ),
+                DropdownMenuItem(
+                  child: Icon(
+                    Icons.exit_to_app,
+                    size: 50,
+                    color: Colors.red,
+                  ),
+                  value: 2,
+                ),
+              ],
+            ),            
           ],
         ),
       ),

@@ -50,7 +50,7 @@ class _TelaLoginState extends State<TelaLogin> {
                 ),
               ),
               Positioned(
-                top: 380,
+                top: 330,
                 child: Container(
                   padding: EdgeInsets.all(32),
                   width: MediaQuery.of(context).size.width,
