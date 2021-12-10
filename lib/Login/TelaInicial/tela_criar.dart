@@ -123,6 +123,7 @@ class _CriarContaState extends State<CriarConta> {
                 Container(
                   width: 150,
                   child: OutlinedButton(
+                    key: Key('criar'),
                     child: const Text('Criar'),
                     style: OutlinedButton.styleFrom(
                       shape: RoundedRectangleBorder(

@@ -131,6 +131,7 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     TextButton(
+                      key: Key('anterior'),
                         onPressed: currentIndex != 0
                             ? () {
                                 _pageController.previousPage(
@@ -162,6 +163,7 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                       width: 50,
                     ),
                     TextButton(
+                      key: Key('proxFim'),
                         onPressed: () {
                           if (currentIndex != 2) {
                             if (currentIndex == 0) {
@@ -721,6 +723,7 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                       Container(
                         //  width: 150,
                         child: TextField(
+                          key: Key('latitude'),
                           style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 24,
@@ -769,6 +772,7 @@ class _OnbordingFormularioState extends State<OnbordingFormulario> {
                       Container(
                         //width: 150,
                         child: TextField(
+                          key: Key('logitude'),
                           style: TextStyle(
                             color: Theme.of(context).primaryColor,
                             fontSize: 24,
